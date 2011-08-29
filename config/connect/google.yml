@@ -13,4 +13,4 @@ test:
 
 production:
   <<: *defaults
-  redirect_uri: https://openid-connect.herokuapp.com/connect/google
+  redirect_uri: https://connect-op.heroku.com/connect/google
