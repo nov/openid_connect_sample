@@ -38,5 +38,9 @@ module ConnectOp
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    config.middleware.use Rack::OAuth2::Server::Resource::Bearer, 'OpenID Connect' do |req|
+      AccessToken.valid.find_by_token(req.access_token) || req.invalid_token!
+    end
   end
 end
