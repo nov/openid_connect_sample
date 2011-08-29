@@ -1,0 +1,17 @@
+<fb:login-button length="long" onlogin="location.href = '<%= connect_facebook_path %>'" scope="<%= Connect::Facebook.config[:scope] %>"></fb:login-button>
+
+<% content_for :top do %>
+  <div id="fb-root"></div>
+<% end %>
+
+<% content_for :bottom do %>
+  <script src="https://connect.facebook.net/en_US/all.js"></script>
+  <script>
+    FB.init({
+      appId: "<%= Connect::Facebook.config[:client_id] %>",
+      cookie: true,
+      xfbml: true,
+      oauth: true
+    });
+  </script>
+<% end %>

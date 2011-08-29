@@ -1,0 +1,31 @@
+.dashboard .client {
+  position: relative;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  margin: 10px 0;
+  padding: 15px 18px;
+}
+.dashboard .client .redirect_uri {
+  font-size: .8em;
+}
+.dashboard .client .authorize ul li {
+  display: inline-block;
+}
+.dashboard .client .destroy {
+  position: absolute;
+  bottom: 15px;
+  right: 18px;
+  text-align: right;
+}
+.dashboard .client .destroy a {
+  color: #900;
+}
+.dashboard .client .destroy a:hover {
+  color: #d00;
+}
+.dashboard .help {
+  background: #ccc;
+  border-radius: 8px;
+  margin-top: 30px;
+  padding: 15px 18px;
+}

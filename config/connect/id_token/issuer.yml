@@ -1,0 +1,9 @@
+development: &defaults
+  issuer: http://op.dev
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  issuer: https://openid-connect.herokuapp.com

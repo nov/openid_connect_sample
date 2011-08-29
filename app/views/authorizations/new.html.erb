@@ -1,0 +1,32 @@
+<article>
+  <h2><%= 'authorizations.new.title'.t(client: @client.name) %></h2>
+  <p><%= 'authorizations.new.description'.t(redirect_uri: @redirect_uri) %></p>
+  <dl>
+    <dt><%= 'authorization.scope'.t %></dt>
+    <% @scopes.each do |scope| %>
+      <dd><%= scope.name %></dd>
+    <% end %>
+  </dl>
+  <nav>
+    <ul>
+      <li>
+        <%= render 'authorizations/form', {
+          client: @client,
+          response_type: @response_type,
+          redirect_uri: @redirect_uri,
+          scopes: @scopes,
+          action: :approve
+        } %>
+      </li>
+      <li>
+        <%= render 'authorizations/form', {
+          client: @client,
+          response_type: @response_type,
+          redirect_uri: @redirect_uri,
+          scopes: @scopes,
+          action: :deny
+        } %>
+      </li>
+    </ul>
+  </nav>
+</article>

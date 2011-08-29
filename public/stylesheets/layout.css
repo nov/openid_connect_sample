@@ -1,0 +1,96 @@
+h1, h2, h3, h4, strong, b {
+  font-weight: 600;
+}
+section, article, nav, aside {
+  overflow: scroll;
+}
+a {
+  color: #666;
+  text-decoration: none;
+}
+a:hover {
+  color: #333;
+}
+ul {
+  list-style: none;
+}
+details summary {
+  font-style: italic;
+  font-weight: bolder;
+}
+dl dt {
+  font-weight: bolder;
+}
+dl dd {
+  padding-left: 1em;
+}
+input[type=submit] {
+  -webkit-box-shadow: #fff 0px 0.08em 0.2em 1px inset;
+  background: #fff -webkit-gradient(
+    linear, left top, left bottom,
+    from(#fff),
+    to(#b6b6b6)
+  );
+  border: 1px solid #b6b6b6;
+  border-radius: 8px;
+  color: #777;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5em;
+  padding: 0.3em 1em;
+  text-shadow: #fff 0px 1px 1px;
+  vertical-align: middle;
+}
+input[type=submit]:hover,
+input[type=submit]:focus {
+  background-image: -webkit-gradient(
+    linear, left top, left bottom,
+    from(#fff),
+    to(#aaa)
+  );
+}
+input[type=submit]:active {
+  -webkit-box-shadow: #b6b6b6 0px 0.08em 0.2em 1px inset;
+  background-image: -webkit-gradient(
+    linear, left top, left bottom,
+    from(#ccc),
+    to(#ccc)
+  );
+}
+input:not([type=submit]):valid {
+  background: #dfd;
+}
+input:not([type=submit]):invalid {
+  background: #fdd;
+}
+
+body > header {
+  background: url("/images/logo.png") no-repeat top left;
+  color: #666;
+  height: 60px;
+  padding: 3px 0 0 70px;
+}
+body > header a {
+  color: #333;
+}
+body > header a:hover {
+  color: #666;
+}
+body > footer {
+  font-size: 13px;
+  color: #666;
+  text-align: right;
+}
+body > footer ul li {
+  display: inline-block;
+}
+body > footer ul li:not(:first-child) {
+  margin-left: 15px;
+}
+body > footer input[type=submit] {
+  font-size: 13px;
+}
+body > .main {
+  padding: 30px 0;
+}

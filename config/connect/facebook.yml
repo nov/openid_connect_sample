@@ -1,0 +1,10 @@
+development: &defaults
+  client_id: 131909826902957
+  client_secret: 101c7ebebb894c551bbe9f461bfe9e8f
+  scope: user_birthday, user_location, user_website, email
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

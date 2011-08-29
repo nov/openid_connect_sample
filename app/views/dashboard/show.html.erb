@@ -1,0 +1,27 @@
+<section>
+  <h2><%= 'dashboard.title'.t %></h2>
+  <%= render @clients %>
+</section>
+
+<nav>
+  <p>
+    <%= link_to 'clients.new.title'.t, new_client_path %>
+  </p>
+</nav>
+
+<aside class="help">
+  <h3><%= 'help.title'.t %></h3>
+  <details>
+    <summary><%= 'endpoint.help'.t %></summary>
+    <dl>
+      <dt><%= 'endpoint.authorization'.t %></dt>
+      <dd><%= new_authorization_url %></dd>
+      <dt><%= 'endpoint.token'.t %></dt>
+      <dd><%= access_tokens_url %></dd>
+      <dt><%= 'endpoint.user_info'.t %></dt>
+      <dd><%= user_info_url %></dd>
+      <dt><%= 'endpoint.check_session'.t %></dt>
+      <dd><%= id_token_url %></dd>
+    </dl>
+  </details>
+</aside>

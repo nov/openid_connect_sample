@@ -1,0 +1,15 @@
+<footer class="page_footer">
+  <% if authenticated? %>
+    <%= form_tag session_path, method: :delete do  %>
+      <%= submit_tag 'Logout'.t %>
+    <% end %>
+  <% end %>
+  <ul>
+    <li>
+      <%= link_to 'OpenID Connect RubyGem', 'https://github.com/nov/openid_connect' %>
+    </li>
+    <li>
+      <small>&copy; <%= link_to 'nov matake', 'https://github.com/nov'%></small>
+    </li>
+  </ul>
+</footer>

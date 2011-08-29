@@ -1,0 +1,8 @@
+<%= form_tag authorizations_path, class: action do %>
+  <%= hidden_field_tag :client_id, client.identifier %>
+  <%= hidden_field_tag :response_type, response_type %>
+  <%= hidden_field_tag :redirect_uri, redirect_uri if params[:redirect_uri] %>
+  <%= hidden_field_tag :scope, scopes.collect(&:name).join(' ') %>
+  <%= submit_tag "client.#{action}".t %>
+  <%= hidden_field_tag action, true %>
+<% end %>
