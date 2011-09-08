@@ -33,7 +33,7 @@ class DiscoveryController < ApplicationController
       user_info_endpoint: user_info_url,
       check_session_endpoint: id_token_url,
       scopes_supported: Scope.all.collect(&:name),
-      flows_supported: ['code', 'token', 'code token'],
+      flows_supported: Client.avairable_response_types,
       identifiers_supported: ['public', 'ppid']
     }
   end

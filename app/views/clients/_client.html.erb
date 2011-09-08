@@ -14,7 +14,7 @@
     <nav class="authorize">
       <h4><%= 'authorizations.new.title'.t(client: client.name) %></h4>
       <ul>
-        <% ['code', 'token', 'id_token', 'code token', 'code id_token', 'id_token token'].each do |response_type| %>
+        <% Client.avairable_response_types.each do |response_type| %>
           <li>
             <%= form_tag new_authorization_path, method: :get do %>
               <%= hidden_field_tag :client_id, client.identifier %>

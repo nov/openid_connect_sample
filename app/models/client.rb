@@ -38,6 +38,10 @@ class Client < ActiveRecord::Base
     }
   end
 
+  def self.avairable_response_types
+    ['code', 'token', 'id_token', 'code token', 'code id_token', 'id_token token']
+  end
+
   private
 
   def setup
