@@ -13,7 +13,7 @@ class Account < ActiveRecord::Base
   validates :identifier, presence: true, uniqueness: true
 
   def to_response_object(access_token)
-    user_info = (google || facebook).user_info
+    user_info = (google || facebook || fake).user_info
     user_info.id = if access_token.accessible?(Scope::PPID)
       pairwise_pseudonymous_identifiers.find_or_create_by_client_id(access_token.client_id).identifier
     else
