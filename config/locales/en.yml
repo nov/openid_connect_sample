@@ -34,6 +34,10 @@ en:
     new:
       title: Authorize %{client} ?
       description: After approved, you will be redirected to %{redirect_uri}
+  connect:
+    fakes:
+      new:
+        title: Create Fake Account
   # others
   help:
     title: Help

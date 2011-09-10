@@ -7,6 +7,7 @@ ConnectOp::Application.routes.draw do
   resource :user_info, only: :show
 
   namespace :connect do
+    resource :fake,     only: :create
     resource :facebook, only: :show
     resource :google,   only: :show
     resource :client
