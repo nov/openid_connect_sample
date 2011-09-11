@@ -18,6 +18,7 @@ class Connect::Facebook < ActiveRecord::Base
       email:    me.email,
       address:  me.location.try(:name),
       profile:  me.link,
+      picture:  me.picture,
       locale:   me.locale,
       verified: me.verified
     }
