@@ -5,6 +5,10 @@ class UserInfoController < ApplicationController
     render json: current_token.account.to_response_object(current_token)
   end
 
+  def create
+    show
+  end
+
   private
 
   def required_scopes
