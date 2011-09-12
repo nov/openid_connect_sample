@@ -18,7 +18,7 @@ en:
     scope: Requested Scopes
   # per controller
   site:
-    title: OpenID Connect
+    title: Nov's OP
     description: Connect Now!
   top:
     title: OpenID Connect Sample OP
