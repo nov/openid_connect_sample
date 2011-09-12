@@ -8,10 +8,11 @@ class UserInfoController < ApplicationController
     when Rack::OAuth2::Client::Error
       'Google'
     end
-    raise Rack::OAuth2::Server::Resource::Bearer::BadRequest.new(:invalid_request, <<-MESSAGE
-Your access token is valid, but we failed to fetch profile data from #{provider}.
-#{provider}'s access token on our side seems expired/revoked.
-MESSAGE
+    raise Rack::OAuth2::Server::Resource::Bearer::BadRequest.new(
+      :invalid_request, [
+        "Your access token is valid, but we failed to fetch profile data from #{provider}.",
+        "#{provider}'s access token on our side seems expired/revoked."
+      ].join(' ')
     )
   end
 
