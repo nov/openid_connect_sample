@@ -14,14 +14,18 @@ class Account < ActiveRecord::Base
 
   def to_response_object(access_token)
     user_info = (google || facebook || fake).user_info
-    user_info.id = if access_token.accessible?(Scope::PPID)
+    unless access_token.accessible?(Scope::PROFILE)
+      user_info.all_attributes.each do |attribute|
+        user_info.send "#{attribute}=", nil
+      end
+    end
+    user_info.email   = nil unless access_token.accessible?(Scope::EMAIL)
+    user_info.address = nil unless access_token.accessible?(Scope::ADDRESS)
+    user_info.user_id = if access_token.accessible?(Scope::PPID)
       pairwise_pseudonymous_identifiers.find_or_create_by_client_id(access_token.client_id).identifier
     else
       identifier
     end
-    user_info.profile = nil unless access_token.accessible?(Scope::PROFILE)
-    user_info.email   = nil unless access_token.accessible?(Scope::EMAIL)
-    user_info.address = nil unless access_token.accessible?(Scope::ADDRESS)
     user_info
   end
 
