@@ -21,8 +21,8 @@ en:
     title: Nov's OP
     description: Connect Now!
   top:
-    title: OpenID Connect Sample OP
-    description: You can use this app as sample OP for your RP or sample code for your OP.
+    title: Let me try to work with your RP :)
+    description: You can use this app as a sample OP for your RP or sample code for your OP.
   dashboard:
     title: Registered Clients
     help:
