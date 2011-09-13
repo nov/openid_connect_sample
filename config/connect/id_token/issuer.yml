@@ -6,4 +6,4 @@ test:
 
 production:
   <<: *defaults
-  issuer: https://openid-connect.herokuapp.com
+  issuer: https://connect-op.heroku.com
