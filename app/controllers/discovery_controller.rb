@@ -26,7 +26,7 @@ class DiscoveryController < ApplicationController
   def openid_configuration
     render json: {
       version: '3.0',
-      issuer: IdToken.class.config[:issuer],
+      issuer: IdToken.config[:issuer],
       authorization_endpoint: new_authorization_url,
       token_endpoint: access_tokens_url,
       registration_endpoint: connect_client_url,
