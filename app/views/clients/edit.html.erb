@@ -1,0 +1,7 @@
+<article>
+  <h2><%= 'clients.edit.title'.t %></h2>
+  <%= form_for @client, :method => :put do |f| %>
+    <%= render 'clients/form', client: @client, f: f %>
+    <%= f.submit %>
+  <% end %>
+</article>
