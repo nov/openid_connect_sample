@@ -26,6 +26,9 @@
         <% end %>
       </ul>
     </nav>
-    <p class="destroy"><%= link_to 'destroy'.t, client_path(client), method: :delete %></p>
+    <footer>
+      <%= link_to 'edit'.t, edit_client_path(client) %>
+      <%= link_to 'destroy'.t, client_path(client), :class => 'destroy', method: :delete %>
+    </footer>
   </details>
 </article>

@@ -11,16 +11,16 @@
 .dashboard .client .authorize ul li {
   display: inline-block;
 }
-.dashboard .client .destroy {
+.dashboard .client footer {
   position: absolute;
   bottom: 15px;
   right: 18px;
   text-align: right;
 }
-.dashboard .client .destroy a {
+.dashboard .client footer a.destroy {
   color: #900;
 }
-.dashboard .client .destroy a:hover {
+.dashboard .client footer a.destroy:hover {
   color: #d00;
 }
 .dashboard .help {

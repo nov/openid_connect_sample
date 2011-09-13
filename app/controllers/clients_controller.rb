@@ -2,11 +2,11 @@ class ClientsController < ApplicationController
   before_filter :require_authentication
 
   def new
-    @client = context.new
+    @client = current_account.clients.new
   end
 
   def create
-    @client = context.new params[:client]
+    @client = current_account.clients.new params[:client]
     if @client.save
       redirect_to dashboard_url, flash: {
         notice: "Registered #{@client.name}"
@@ -17,14 +17,24 @@ class ClientsController < ApplicationController
     end
   end
 
-  def destroy
-    context.find(params[:id]).destroy
-    redirect_to dashboard_url
+  def edit
+    @client = current_account.clients.find(params[:id])
   end
 
-  private
+  def update
+    @client = current_account.clients.find(params[:id])
+    if @client.update_attributes(params[:client])
+      redirect_to dashboard_url, flash: {
+        notice: "Updated #{@client.name}"
+      }
+    else
+      flash[:error] = @client.errors.full_messages.to_sentence
+      render :edit
+    end
+  end
 
-  def context
-    current_account.clients
+  def destroy
+    current_account.clients.find(params[:id]).destroy
+    redirect_to dashboard_url
   end
 end

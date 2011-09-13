@@ -2,7 +2,7 @@ ConnectOp::Application.routes.draw do
   resource :session,   only: :destroy
   resource :dashboard, only: :show
 
-  resources :clients,        only: [:new, :create, :destroy]
+  resources :clients, except: :show
   resources :authorizations, only: [:new, :create]
 
   namespace :connect do
