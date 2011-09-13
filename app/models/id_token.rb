@@ -37,13 +37,16 @@ class IdToken < ActiveRecord::Base
     def config
       config_path = File.join Rails.root, 'config/connect/id_token'
       config = YAML.load_file(File.join(config_path, 'issuer.yml'))[Rails.env].symbolize_keys
-      config[:private_key] = OpenSSL::PKey::RSA.new(
-        File.read(File.join(config_path, 'private.crt')),
+      private_key = OpenSSL::PKey::RSA.new(
+        File.read(File.join(config_path, 'private.key')),
         'pass-phrase'
       )
-      config[:public_key] = OpenSSL::PKey::RSA.new(
-        File.read(File.join(config_path, 'public.crt'))
+      cert = OpenSSL::X509::Certificate.new(
+        File.read(File.join(config_path, 'cert.pem'))
       )
+      config[:cert]        = cert
+      config[:public_key]  = cert.public_key
+      config[:private_key] = private_key
       config
     end
     memoize :config
