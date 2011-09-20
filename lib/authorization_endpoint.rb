@@ -58,7 +58,6 @@ class AuthorizationEndpoint
       client: @client
     ).to_response_object(
       scopes.include?(Scope::PPID)
-    )
-    res.private_key = IdToken.config[:private_key]
+    ).to_jwt IdToken.config[:private_key]
   end
 end

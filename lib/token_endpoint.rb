@@ -19,8 +19,7 @@ class TokenEndpoint
             client: access_token.client
           ).to_response_object(
             access_token.accessible?(Scope::PPID)
-          )
-          res.private_key = IdToken.config[:private_key]
+          ).to_jwt IdToken.config[:private_key]
         end
       else
         req.unsupported_grant_type!
