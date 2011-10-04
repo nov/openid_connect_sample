@@ -16,7 +16,7 @@ class DiscoveryController < ApplicationController
     logger.info params[:service]
     if params[:service] == 'http://openid.net/specs/connect/1.0/issuer'
       render json: {
-       :locations => [new_authorization_url]
+       :locations => [IdToken.config[:issuer]]
       }
     else
       raise HttpError::NotFound
@@ -29,12 +29,18 @@ class DiscoveryController < ApplicationController
       issuer: IdToken.config[:issuer],
       authorization_endpoint: new_authorization_url,
       token_endpoint: access_tokens_url,
-      registration_endpoint: connect_client_url,
       user_info_endpoint: user_info_url,
-      check_session_endpoint: id_token_url,
+      check_id_endpoint: id_token_url,
+      registration_endpoint: connect_client_url,
       scopes_supported: Scope.all.collect(&:name),
       flows_supported: Client.avairable_response_types,
-      identifiers_supported: ['public', 'ppid']
+      identifiers_supported: ['public', 'ppid'],
+      x509_url: IdToken.config[:x509_url]
+      # NOT SUPPORTED YET
+      # * refresh_session_endpoint
+      # * end_session_endpoint
+      # * jwk_document
+      # * iso29115_supported
     }
   end
 end
