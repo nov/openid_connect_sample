@@ -13,7 +13,10 @@ class Client < ActiveRecord::Base
 
   scope :dynamic, where(dynamic: true)
   scope :valid, lambda {
-    where { expires_at == nil || expires_at >= Time.now.utc }
+    where {
+      (expires_at == nil) |
+      (expires_at >= Time.now.utc)
+    }
   }
 
   attr_accessible :redirect_uri, :name, :native, :contact, :logo_url, :js_origin_uri, :jwk_url, :x509_url, :sector_identifier
