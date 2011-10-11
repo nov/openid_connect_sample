@@ -1,41 +1,34 @@
 class Connect::ClientsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_filter :require_client_access_token, except: [:new, :create]
 
-  def show
-    render json: current_token.client
-  end
-
-  def new
-    render json: Client.metadata
+  rescue_from HttpError do |e|
+    render json: {error: e.message}, status: e.status
   end
 
   def create
-    @client = Client.dynamic.new params[:client]
-    with_validation do
-      @client.save
+    @client = find_or_initialize_client
+    @client.dynamic_attributes = params
+    if @client.save
+      render json: @client
+    else
+      raise HttpError::BadRequest.new(@client.errors.full_messages.to_sentence)
     end
-  end
-
-  def update
-    @client = current_token.client
-    with_validation do
-      @client.update_attributes params[:client]
-    end
-  end
-
-  def destroy
-    current_token.client.destroy
-    render json: {removed: true}
   end
 
   private
 
-  def with_validation
-    if yield
-      render json: @client
+  def find_or_initialize_client
+    case params[:type]
+    when 'client_associate'
+      Client.dynamic.new
+    when 'client_update'
+      client = Client.dynamic.find_by_identifier! params[:client_id]
+      unless client.secret == params[:client_secret]
+        raise HttpError::Unauthorized.new('Invalid Client Credentials')
+      end
+      client
     else
-      render json: {error: @client.errors, metadata: new_connect_client_url}, status: 400
+      raise HttpError::BadRequest.new('Invalid Registration Type')
     end
   end
 end

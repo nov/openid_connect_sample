@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110910061828) do
+ActiveRecord::Schema.define(:version => 20111011032604) do
 
   create_table "access_token_scopes", :force => true do |t|
     t.integer  "access_token_id"
@@ -64,9 +64,17 @@ ActiveRecord::Schema.define(:version => 20110910061828) do
     t.string   "secret"
     t.string   "name"
     t.string   "redirect_uri"
-    t.boolean  "dynamic",      :default => false
+    t.boolean  "dynamic",           :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "contact"
+    t.string   "logo_url"
+    t.string   "js_origin_uri"
+    t.string   "jwk_url"
+    t.string   "x509_url"
+    t.string   "sector_identifier"
+    t.boolean  "native",            :default => false
+    t.datetime "expires_at"
   end
 
   add_index "clients", ["identifier"], :name => "index_clients_on_identifier", :unique => true

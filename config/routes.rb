@@ -9,7 +9,7 @@ ConnectOp::Application.routes.draw do
     resource :fake,     only: :create
     resource :facebook, only: :show
     resource :google,   only: :show
-    resource :client
+    resource :client,   only: :create
   end
 
   root to: 'top#index'
