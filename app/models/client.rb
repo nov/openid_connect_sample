@@ -32,7 +32,9 @@ class Client < ActiveRecord::Base
       jwk_url:           attributes[:jwk_url],
       x509_url:          attributes[:x509_url],
       sector_identifier: attributes[:sector_identifier]
-    }
+    }.delete_if do |key, value|
+      value.nil?
+    end
   end
 
   def as_json(options = {})
