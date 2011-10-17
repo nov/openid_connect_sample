@@ -15,6 +15,7 @@
           response_type: @response_type,
           redirect_uri: @redirect_uri,
           scopes: @scopes,
+          state: params[:state],
           action: :approve
         } %>
       </li>
@@ -24,6 +25,7 @@
           response_type: @response_type,
           redirect_uri: @redirect_uri,
           scopes: @scopes,
+          state: params[:state],
           action: :deny
         } %>
       </li>
