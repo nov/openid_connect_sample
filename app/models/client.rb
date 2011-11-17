@@ -48,7 +48,7 @@ class Client < ActiveRecord::Base
 
   def expires_in
     if expires_at
-      expires_at - Time.now.utc
+      (expires_at - Time.now.utc).to_i
     else
       0
     end
