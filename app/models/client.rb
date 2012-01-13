@@ -8,7 +8,7 @@ class Client < ActiveRecord::Base
   validates :account,      presence: {unless: :dynamic?}
   validates :identifier,   presence: true, uniqueness: true
   validates :secret,       presence: true
-  validates :redirect_uri, presence: true, url: true
+  validates :redirect_uri, presence: true, format: URI.regexp(/\w+/)
   validates :name,         presence: true
 
   scope :dynamic, where(dynamic: true)
