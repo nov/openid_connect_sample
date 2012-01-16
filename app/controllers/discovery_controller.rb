@@ -29,12 +29,12 @@ class DiscoveryController < ApplicationController
       issuer: IdToken.config[:issuer],
       authorization_endpoint: new_authorization_url,
       token_endpoint: access_tokens_url,
-      user_info_endpoint: user_info_url,
+      userinfo_endpoint: user_info_url,
       check_id_endpoint: id_token_url,
       registration_endpoint: connect_client_url,
       scopes_supported: Scope.all.collect(&:name),
-      flows_supported: Client.avairable_response_types,
-      identifiers_supported: ['public', 'ppid'],
+      response_types_supported: Client.avairable_response_types,
+      user_id_types_supported: ['public', 'pairwise'],
       x509_url: IdToken.config[:x509_url]
       # NOT SUPPORTED YET
       # * refresh_session_endpoint
