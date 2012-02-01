@@ -25,16 +25,6 @@ class IdToken < ActiveRecord::Base
     )
   end
 
-  def decode(id_token)
-    id_token = OpenIDConnect::ResponseObject::IdToken.decode id_token, self.class.config[:public_key]
-    client = Client.find_by_identifier! id_token.aud
-    id_token.verify! client.identifier
-    id_token
-  rescue => e
-    logger.error e.message
-    nil
-  end
-
   private
 
   def setup
@@ -43,6 +33,16 @@ class IdToken < ActiveRecord::Base
 
   class << self
     extend ActiveSupport::Memoizable
+
+    def decode(id_token)
+      id_token = OpenIDConnect::ResponseObject::IdToken.decode id_token, config[:public_key]
+      client = Client.find_by_identifier! id_token.aud
+      id_token.verify! client.identifier
+      id_token
+    rescue => e
+      logger.error e.message
+      nil
+    end
 
     def config
       config_path = File.join Rails.root, 'config/connect/id_token'
