@@ -54,10 +54,19 @@ module Authentication
   end
 
   def require_access_token
-    @current_token = AccessToken.valid.find_by_token request.env[Rack::OAuth2::Server::Resource::ACCESS_TOKEN]
-    raise Rack::OAuth2::Server::Resource::Bearer::Unauthorized unless @current_token
+    @current_token = request.env[Rack::OAuth2::Server::Resource::ACCESS_TOKEN]
+    unless @current_token.is_a?(Rack::OAuth2::AccessToken::Bearer)
+      raise Rack::OAuth2::Server::Resource::Bearer::Unauthorized
+    end
     unless @current_token.accessible? required_scopes
       raise Rack::OAuth2::Server::Resource::Bearer::Forbidden.new(:insufficient_scope)
+    end
+  end
+
+  def require_id_token
+    @current_token = request.env[Rack::OAuth2::Server::Resource::ACCESS_TOKEN]
+    unless @current_token.is_a?(OpenIDConnect::ResponseObject::IdToken)
+      raise Rack::OAuth2::Server::Resource::Bearer::Unauthorized
     end
   end
 
