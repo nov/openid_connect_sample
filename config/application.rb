@@ -41,7 +41,7 @@ module ConnectOp
 
     config.middleware.use Rack::OAuth2::Server::Resource::Bearer, 'OpenID Connect' do |req|
      if req.access_token.count('.') == 2
-        IdToken.verify(req.access_token)
+        IdToken.decode(req.access_token)
       else
         AccessToken.valid.find_by_token(req.access_token)
       end || req.invalid_token!
