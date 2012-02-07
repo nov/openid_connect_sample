@@ -19,22 +19,35 @@ class Client < ActiveRecord::Base
     }
   }
 
-  attr_accessible :redirect_uri, :name, :native, :contact, :logo_url, :js_origin_uri, :jwk_url, :x509_url, :sector_identifier
+  def self.avairable_response_types
+    ['code', 'token', 'id_token', 'code token', 'code id_token', 'id_token token']
+  end
 
-  def dynamic_attributes=(attributes)
-    self.attributes = {
-      native:            attributes[:application_type] == 'native',
-      name:              attributes[:application_name],
-      redirect_uri:      attributes[:redirect_uri],
-      contact:           attributes[:contact],
-      logo_url:          attributes[:logo_url],
-      js_origin_uri:     attributes[:js_origin_uri],
-      jwk_url:           attributes[:jwk_url],
-      x509_url:          attributes[:x509_url],
-      sector_identifier: attributes[:sector_identifier]
+  def self.from_registrar(registrar)
+    client = case registrar.type
+    when 'client_associate'
+      dynamic.new
+    when 'client_update'
+      client = dynamic.find_by_identifier! registrar.client_id
+      unless client.secret == registrar.client_secret
+        registrar.errors.add :client_secret
+      end
+      client
+    end
+    registrar.validate!
+    client.attributes = {
+      native:            registrar.application_type == 'native',
+      name:              registrar.application_name,
+      redirect_uri:      registrar.redirect_uris.try(:first),
+      contact:           registrar.contacts.try(:first),
+      logo_url:          registrar.logo_url,
+      jwk_url:           registrar.jwk_url,
+      x509_url:          registrar.x509_url,
+      sector_identifier: registrar.sector_identifier
     }.delete_if do |key, value|
       value.nil?
     end
+    client
   end
 
   def as_json(options = {})
@@ -52,23 +65,6 @@ class Client < ActiveRecord::Base
     else
       0
     end
-  end
-
-  def self.metadata
-    {
-      redirect_uri: {
-        type: :uri,
-        required: true
-      },
-      name: {
-        type: :string,
-        required: true
-      }
-    }
-  end
-
-  def self.avairable_response_types
-    ['code', 'token', 'id_token', 'code token', 'code id_token', 'id_token token']
   end
 
   private
