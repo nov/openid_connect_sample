@@ -11,13 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111011032604) do
+ActiveRecord::Schema.define(:version => 20120217143250) do
 
   create_table "access_token_scopes", :force => true do |t|
     t.integer  "access_token_id"
     t.integer  "scope_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "access_tokens", :force => true do |t|
@@ -25,16 +25,17 @@ ActiveRecord::Schema.define(:version => 20111011032604) do
     t.integer  "client_id"
     t.string   "token"
     t.datetime "expires_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "nonce"
   end
 
   add_index "access_tokens", ["token"], :name => "index_access_tokens_on_token", :unique => true
 
   create_table "accounts", :force => true do |t|
     t.string   "identifier"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "accounts", ["identifier"], :name => "index_accounts_on_identifier", :unique => true
@@ -42,8 +43,8 @@ ActiveRecord::Schema.define(:version => 20111011032604) do
   create_table "authorization_scopes", :force => true do |t|
     t.integer  "authorization_id"
     t.integer  "scope_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "authorizations", :force => true do |t|
@@ -52,8 +53,9 @@ ActiveRecord::Schema.define(:version => 20111011032604) do
     t.string   "code"
     t.string   "redirect_uri"
     t.datetime "expires_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.string   "nonce"
   end
 
   add_index "authorizations", ["code"], :name => "index_authorizations_on_code", :unique => true
@@ -65,11 +67,10 @@ ActiveRecord::Schema.define(:version => 20111011032604) do
     t.string   "name"
     t.string   "redirect_uri"
     t.boolean  "dynamic",           :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
     t.string   "contact"
     t.string   "logo_url"
-    t.string   "js_origin_uri"
     t.string   "jwk_url"
     t.string   "x509_url"
     t.string   "sector_identifier"
@@ -83,14 +84,14 @@ ActiveRecord::Schema.define(:version => 20111011032604) do
     t.integer  "account_id"
     t.string   "identifier"
     t.string   "access_token"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "connect_fakes", :force => true do |t|
     t.integer  "account_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "connect_google", :force => true do |t|
@@ -98,30 +99,31 @@ ActiveRecord::Schema.define(:version => 20111011032604) do
     t.string   "identifier"
     t.string   "access_token"
     t.string   "id_token"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "id_tokens", :force => true do |t|
     t.integer  "account_id"
     t.integer  "client_id"
     t.datetime "expires_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "nonce"
   end
 
   create_table "pairwise_pseudonymous_identifiers", :force => true do |t|
     t.integer  "account_id"
     t.integer  "client_id"
     t.string   "identifier"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "scopes", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "scopes", ["name"], :name => "index_scopes_on_name", :unique => true

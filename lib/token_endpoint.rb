@@ -16,7 +16,8 @@ class TokenEndpoint
         res.access_token = access_token.to_bearer_token
         if access_token.accessible?(Scope::OPENID)
           res.id_token = access_token.account.id_tokens.create!(
-            client: access_token.client
+            client: access_token.client,
+            nonce: authorization.nonce
           ).to_response_object(
             access_token.accessible?(Scope::PPID)
           ).to_jwt IdToken.config[:private_key]

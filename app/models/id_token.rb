@@ -6,6 +6,7 @@ class IdToken < ActiveRecord::Base
 
   validates :account, presence: true
   validates :client,  presence: true
+  validates :nonce,   presence: true
 
   scope :valid, lambda {
     where { expires_at >= Time.now.utc }
@@ -21,6 +22,7 @@ class IdToken < ActiveRecord::Base
       iss: self.class.config[:issuer],
       user_id: user_id,
       aud: client.identifier,
+      nonce: nonce,
       exp: expires_at.to_i
     )
   end
@@ -35,10 +37,7 @@ class IdToken < ActiveRecord::Base
     extend ActiveSupport::Memoizable
 
     def decode(id_token)
-      id_token = OpenIDConnect::ResponseObject::IdToken.decode id_token, config[:public_key]
-      client = Client.find_by_identifier! id_token.aud
-      id_token.verify! client.identifier
-      id_token
+      OpenIDConnect::ResponseObject::IdToken.decode id_token, config[:public_key]
     rescue => e
       logger.error e.message
       nil

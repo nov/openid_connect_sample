@@ -4,6 +4,7 @@
   <%= hidden_field_tag :scope, scopes.collect(&:name).join(' ') %>
   <%= hidden_field_tag :redirect_uri, redirect_uri %>
   <%= hidden_field_tag :state, state %>
+  <%= hidden_field_tag :nonce, nonce %>
   <%= submit_tag "client.#{action}".t %>
   <%= hidden_field_tag action, true %>
 <% end %>

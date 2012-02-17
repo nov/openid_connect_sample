@@ -29,7 +29,7 @@ class AuthorizationEndpoint
     when :code, :token, :id_token, [:code, :token], [:code, :id_token], [:id_token, :token]
       response_types = Array(req.response_type)
       if response_types.include? :code
-        authorization = account.authorizations.create!(client: @client, redirect_uri: res.redirect_uri)
+        authorization = account.authorizations.create!(client: @client, redirect_uri: res.redirect_uri, nonce: req.nonce)
         authorization.scopes << scopes
         res.code = authorization.code
       end
@@ -41,11 +41,11 @@ class AuthorizationEndpoint
           # NOTE:
           #  Not sure id_token should be returned here.
           #  Will follow spec updates.
-          attach_id_token(res)
+          attach_id_token(req, res)
         end
       end
       if response_types.include? :id_token
-        attach_id_token(res)
+        attach_id_token(req, res)
       end
     else
       res.unsupported_response_type!
@@ -53,9 +53,10 @@ class AuthorizationEndpoint
     res.approve!
   end
 
-  def attach_id_token(res)
+  def attach_id_token(req, res)
     res.id_token = account.id_tokens.create!(
-      client: @client
+      client: @client,
+      nonce: req.nonce
     ).to_response_object(
       scopes.include?(Scope::PPID)
     ).to_jwt IdToken.config[:private_key]

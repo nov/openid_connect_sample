@@ -16,6 +16,7 @@
           redirect_uri: @redirect_uri,
           scopes: @scopes,
           state: params[:state],
+          nonce: params[:nonce],
           action: :approve
         } %>
       </li>
@@ -26,6 +27,7 @@
           redirect_uri: @redirect_uri,
           scopes: @scopes,
           state: params[:state],
+          nonce: params[:nonce],
           action: :deny
         } %>
       </li>
