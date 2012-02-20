@@ -3,11 +3,12 @@ class Connect::Fake < ActiveRecord::Base
 
   def user_info
     OpenIDConnect::ResponseObject::UserInfo::OpenID.new(
-      name:     'Fake Account',
-      email:    'fake@example.com',
-      address:  'Shibuya, Tokyo, Japan',
-      profile:  'http://example.com/fake',
-      locale:   'ja_JP',
+      name:         'Fake Account',
+      email:        'fake@example.com',
+      address:      'Shibuya, Tokyo, Japan',
+      profile:      'http://example.com/fake',
+      locale:       'ja_JP',
+      phone_number: '+81 (3) 1234 5678',
       verified: false
     )
   end

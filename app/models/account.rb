@@ -21,7 +21,10 @@ class Account < ActiveRecord::Base
     end
     user_info.email   = nil unless access_token.accessible?(Scope::EMAIL)
     user_info.address = nil unless access_token.accessible?(Scope::ADDRESS)
-    user_info.user_id = if access_token.accessible?(Scope::PPID)
+    user_info.user_id = if false # access_token.accessible?(Scope::PPID)
+      # TODO:
+      #  Needs update following latest spec.
+      #  PPID is per client setting now.
       pairwise_pseudonymous_identifiers.find_or_create_by_client_id(access_token.client_id).identifier
     else
       identifier

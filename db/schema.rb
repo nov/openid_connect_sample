@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(:version => 20120217143250) do
     t.datetime "expires_at"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "nonce"
   end
 
   add_index "access_tokens", ["token"], :name => "index_access_tokens_on_token", :unique => true

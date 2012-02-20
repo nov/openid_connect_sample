@@ -3,5 +3,5 @@ Scope.create [
   {name: 'profile'},
   {name: 'email'  },
   {name: 'address'},
-  {name: 'PPID'   }
+  {name: 'phone'}
 ]

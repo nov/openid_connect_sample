@@ -10,8 +10,7 @@ class AuthorizationEndpoint
       @scopes = req.scope.inject([]) do |_scopes_, scope|
         _scopes_ << Scope.find_by_name(scope) or req.invalid_scope! "Unknown scope: #{scope}"
       end
-      case req.response_type
-      when :code, :token, :id_token, [:code, :token], [:code, :id_token], [:id_token, :token], [:code, :id_token, :token]
+      if Client.avairable_response_types.include? Array(req.response_type).collect(&:to_s).join(' ')
         if allow_approval
           if approved
             approved! req, res
@@ -44,7 +43,8 @@ class AuthorizationEndpoint
         client: @client,
         nonce: req.nonce
       ).to_response_object(
-        scopes.include?(Scope::PPID)
+        # TODO
+        # scopes.include?(Scope::PPID)
       ).to_jwt IdToken.config[:private_key]
     end
     res.approve!

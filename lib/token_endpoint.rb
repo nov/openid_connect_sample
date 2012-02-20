@@ -19,7 +19,8 @@ class TokenEndpoint
             client: access_token.client,
             nonce: authorization.nonce
           ).to_response_object(
-            access_token.accessible?(Scope::PPID)
+            # TODO
+            # access_token.accessible?(Scope::PPID)
           ).to_jwt IdToken.config[:private_key]
         end
       else

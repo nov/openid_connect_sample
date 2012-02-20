@@ -20,7 +20,7 @@ class Client < ActiveRecord::Base
   }
 
   def self.avairable_response_types
-    ['code', 'token', 'id_token', 'code token', 'code id_token', 'id_token token']
+    ['code', 'token', 'id_token', 'code token', 'code id_token', 'id_token token', 'code id_token token']
   end
 
   def self.from_registrar(registrar)
