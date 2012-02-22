@@ -1,5 +1,8 @@
 class UserInfoController < ApplicationController
   before_filter :require_user_access_token
+  after_filter do |c|
+    logger.info c.response.body
+  end
 
   rescue_from FbGraph::Exception, Rack::OAuth2::Client::Error do |e|
     provider = case e
