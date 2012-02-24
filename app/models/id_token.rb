@@ -18,13 +18,15 @@ class IdToken < ActiveRecord::Base
     else
       account.identifier
     end
-    OpenIDConnect::ResponseObject::IdToken.new(
+    id_token = OpenIDConnect::ResponseObject::IdToken.new(
       iss: self.class.config[:issuer],
       user_id: user_id,
       aud: client.identifier,
       nonce: nonce,
       exp: expires_at.to_i
     )
+    id_token.header[:x5u] = self.class.config[:x509_url]
+    id_token
   end
 
   private
