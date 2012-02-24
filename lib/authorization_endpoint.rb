@@ -45,7 +45,7 @@ class AuthorizationEndpoint
       ).to_response_object(
         # TODO
         # scopes.include?(Scope::PPID)
-      ).to_jwt IdToken.config[:private_key]
+      ).to_jwt @client.secret, :HS256 # IdToken.config[:private_key]
     end
     res.approve!
   end

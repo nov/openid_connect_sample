@@ -24,9 +24,7 @@ class IdToken < ActiveRecord::Base
       aud: client.identifier,
       nonce: nonce,
       exp: expires_at.to_i
-    ) do |t|
-      t.header[:x5u] = self.class.config[:x509_url]
-    end
+    )
   end
 
   private
