@@ -19,8 +19,9 @@ class Account < ActiveRecord::Base
         user_info.send "#{attribute}=", nil
       end
     end
-    user_info.email   = nil unless access_token.accessible?(Scope::EMAIL)
-    user_info.address = nil unless access_token.accessible?(Scope::ADDRESS)
+    user_info.email        = nil unless access_token.accessible?(Scope::EMAIL)
+    user_info.address      = nil unless access_token.accessible?(Scope::ADDRESS)
+    user_info.phone_number = nil unless access_token.accessible?(Scope::PHONE_NUMBER)
     user_info.user_id = if false # access_token.accessible?(Scope::PPID)
       # TODO:
       #  Needs update following latest spec.
