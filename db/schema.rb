@@ -123,10 +123,10 @@ ActiveRecord::Schema.define(:version => 20110910061828) do
 
   create_table "pairwise_pseudonymous_identifiers", :force => true do |t|
     t.integer  "account_id"
-    t.integer  "client_id"
     t.string   "identifier"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "sector_identifier"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "scopes", :force => true do |t|

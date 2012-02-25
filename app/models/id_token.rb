@@ -14,7 +14,7 @@ class IdToken < ActiveRecord::Base
 
   def to_response_object
     user_id = if client.ppid?
-      account.pairwise_pseudonymous_identifiers.find_or_create_by_client_id(client_id).identifier
+      account.pairwise_pseudonymous_identifiers.find_or_create_by_sector_identifier(client.sector_identifier).identifier
     else
       account.identifier
     end

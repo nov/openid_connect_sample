@@ -4,9 +4,9 @@ class PairwisePseudonymousIdentifier < ActiveRecord::Base
 
   before_validation :setup, on: :create
 
-  validates :account,    presence: true
-  validates :client_id,  presence: true, uniqueness: {scope: :account_id}
-  validates :identifier, presence: true, uniqueness: true
+  validates :account,           presence: true
+  validates :sector_identifier, presence: true, uniqueness: {scope: :account_id}
+  validates :identifier,        presence: true, uniqueness: true
 
   private
 
