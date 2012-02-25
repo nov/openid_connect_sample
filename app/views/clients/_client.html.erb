@@ -1,7 +1,7 @@
 <article class="client">
   <h3>
     <%= client.name %>
-    <span class="redirect_uri">(<%= client.redirect_uri %>)</span>
+    <span class="redirect_uris">(<%= client.redirect_uris.try(:join, ' ') %>)</span>
   </h3>
   <details>
     <summary><%= 'client.credentials'.t %></summary>

@@ -1,3 +1,14 @@
+<%
+  common_params = {
+    client: @client,
+    response_type: @response_type,
+    redirect_uri: @redirect_uri,
+    scopes: @scopes,
+    state: params[:state],
+    nonce: params[:nonce]
+  }
+%>
+
 <article>
   <h2><%= 'authorizations.new.title'.t(client: @client.name) %></h2>
   <p><%= 'authorizations.new.description'.t(redirect_uri: @redirect_uri) %></p>
@@ -10,26 +21,10 @@
   <nav>
     <ul>
       <li>
-        <%= render 'authorizations/form', {
-          client: @client,
-          response_type: @response_type,
-          redirect_uri: @redirect_uri,
-          scopes: @scopes,
-          state: params[:state],
-          nonce: params[:nonce],
-          action: :approve
-        } %>
+        <%= render 'authorizations/form', common_params.merge(action: :approve) %>
       </li>
       <li>
-        <%= render 'authorizations/form', {
-          client: @client,
-          response_type: @response_type,
-          redirect_uri: @redirect_uri,
-          scopes: @scopes,
-          state: params[:state],
-          nonce: params[:nonce],
-          action: :deny
-        } %>
+        <%= render 'authorizations/form', common_params.merge(action: :deny) %>
       </li>
     </ul>
   </nav>

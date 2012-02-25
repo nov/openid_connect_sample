@@ -26,12 +26,7 @@ class Authorization < ActiveRecord::Base
   end
 
   def valid_redirect_uri?(given_uri)
-    expected_uri = if given_uri.blank?
-      client.redirect_uri
-    else
-      given_uri
-    end
-    expected_uri == redirect_uri
+    given_uri == redirect_uri
   end
 
   private

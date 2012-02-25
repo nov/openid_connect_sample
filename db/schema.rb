@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120217143250) do
+ActiveRecord::Schema.define(:version => 20110910061828) do
 
   create_table "access_token_scopes", :force => true do |t|
     t.integer  "access_token_id"
@@ -50,11 +50,11 @@ ActiveRecord::Schema.define(:version => 20120217143250) do
     t.integer  "account_id"
     t.integer  "client_id"
     t.string   "code"
+    t.string   "nonce"
     t.string   "redirect_uri"
     t.datetime "expires_at"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
-    t.string   "nonce"
   end
 
   add_index "authorizations", ["code"], :name => "index_authorizations_on_code", :unique => true
@@ -64,17 +64,27 @@ ActiveRecord::Schema.define(:version => 20120217143250) do
     t.string   "identifier"
     t.string   "secret"
     t.string   "name"
-    t.string   "redirect_uri"
-    t.boolean  "dynamic",           :default => false
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-    t.string   "contact"
     t.string   "logo_url"
+    t.string   "token_endpoint_auth_type"
+    t.string   "policy_url"
     t.string   "jwk_url"
+    t.string   "jwk_encryption_url"
     t.string   "x509_url"
+    t.string   "x509_encryption_url"
     t.string   "sector_identifier"
-    t.boolean  "native",            :default => false
+    t.string   "require_signed_request_object"
+    t.string   "contacts"
+    t.string   "redirect_uris"
+    t.string   "userinfo_signed_response_algs"
+    t.string   "userinfo_encrypted_response_algs"
+    t.string   "id_token_signed_response_algs"
+    t.string   "id_token_encrypted_response_algs"
+    t.boolean  "dynamic",                          :default => false
+    t.boolean  "native",                           :default => false
+    t.boolean  "ppid",                             :default => false
     t.datetime "expires_at"
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
   end
 
   add_index "clients", ["identifier"], :name => "index_clients_on_identifier", :unique => true
@@ -105,10 +115,10 @@ ActiveRecord::Schema.define(:version => 20120217143250) do
   create_table "id_tokens", :force => true do |t|
     t.integer  "account_id"
     t.integer  "client_id"
+    t.string   "nonce"
     t.datetime "expires_at"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "nonce"
   end
 
   create_table "pairwise_pseudonymous_identifiers", :force => true do |t|

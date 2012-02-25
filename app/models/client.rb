@@ -8,7 +8,6 @@ class Client < ActiveRecord::Base
   validates :account,      presence: {unless: :dynamic?}
   validates :identifier,   presence: true, uniqueness: true
   validates :secret,       presence: true
-  validates :redirect_uri, presence: true, format: URI.regexp
   validates :name,         presence: true
 
   scope :dynamic, where(dynamic: true)
@@ -36,18 +35,42 @@ class Client < ActiveRecord::Base
     end
     registrar.validate!
     client.attributes = {
-      native:            registrar.application_type == 'native',
-      name:              registrar.application_name,
-      redirect_uri:      registrar.redirect_uris.try(:first),
-      contact:           registrar.contacts.try(:first),
-      logo_url:          registrar.logo_url,
-      jwk_url:           registrar.jwk_url,
-      x509_url:          registrar.x509_url,
-      sector_identifier: registrar.sector_identifier
+      native:                           registrar.application_type == 'native',
+      ppid:                             registrar.user_id_type == 'pairwise',
+      name:                             registrar.application_name,
+      logo_url:                         registrar.logo_url,
+      token_endpoint_auth_type:         registrar.token_endpoint_auth_type,
+      policy_url:                       registrar.policy_url,
+      jwk_url:                          registrar.jwk_url,
+      jwk_encryption_url:               registrar.jwk_encryption_url,
+      x509_url:                         registrar.x509_url,
+      x509_encryption_url:              registrar.x509_encryption_url,
+      sector_identifier:                registrar.sector_identifier,
+      require_signed_request_object:    registrar.require_signed_request_object,
+      contacts:                         registrar.contacts.try(:join, ' '),
+      redirect_uris:                    registrar.redirect_uris.try(:join, ' '),
+      userinfo_signed_response_algs:    registrar.userinfo_signed_response_algs.try(:join, ' '),
+      userinfo_encrypted_response_algs: registrar.userinfo_encrypted_response_algs.try(:join, ' '),
+      id_token_signed_response_algs:    registrar.id_token_signed_response_algs.try(:join, ' '),
+      id_token_encrypted_response_algs: registrar.id_token_encrypted_response_algs.try(:join, ' ')
     }.delete_if do |key, value|
       value.nil?
     end
     client
+  end
+
+  [
+    :contacts,
+    :redirect_uris,
+    :userinfo_signed_response_algs,
+    :userinfo_encrypted_response_algs,
+    :id_token_signed_response_algs,
+    :id_token_encrypted_response_algs
+  ].each do |plurar_attribute|
+    define_method plurar_attribute do
+      value = read_attribute(plurar_attribute)
+      value.try(:split, ' ')
+    end
   end
 
   def as_json(options = {})

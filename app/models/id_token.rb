@@ -12,8 +12,8 @@ class IdToken < ActiveRecord::Base
     where { expires_at >= Time.now.utc }
   }
 
-  def to_response_object(ppid = false)
-    user_id = if ppid
+  def to_response_object
+    user_id = if client.ppid?
       account.pairwise_pseudonymous_identifiers.find_or_create_by_client_id(client_id).identifier
     else
       account.identifier

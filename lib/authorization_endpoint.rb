@@ -6,7 +6,7 @@ class AuthorizationEndpoint
     @account = current_account
     @app = Rack::OAuth2::Server::Authorize.new do |req, res|
       @client = Client.find_by_identifier(req.client_id) || req.bad_request!
-      res.redirect_uri = @redirect_uri = req.verify_redirect_uri!(@client.redirect_uri)
+      res.redirect_uri = @redirect_uri = req.verify_redirect_uri!(@client.redirect_uris)
       @scopes = req.scope.inject([]) do |_scopes_, scope|
         _scopes_ << Scope.find_by_name(scope) or req.invalid_scope! "Unknown scope: #{scope}"
       end
@@ -42,10 +42,7 @@ class AuthorizationEndpoint
       res.id_token = account.id_tokens.create!(
         client: @client,
         nonce: req.nonce
-      ).to_response_object(
-        # TODO
-        # scopes.include?(Scope::PPID)
-      ).to_jwt IdToken.config[:private_key]
+      ).to_response_object.to_jwt IdToken.config[:private_key]
     end
     res.approve!
   end

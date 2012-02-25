@@ -18,10 +18,7 @@ class TokenEndpoint
           res.id_token = access_token.account.id_tokens.create!(
             client: access_token.client,
             nonce: authorization.nonce
-          ).to_response_object(
-            # TODO
-            # access_token.accessible?(Scope::PPID)
-          ).to_jwt IdToken.config[:private_key]
+          ).to_response_object.to_jwt IdToken.config[:private_key]
         end
       else
         req.unsupported_grant_type!
