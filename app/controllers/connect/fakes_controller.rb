@@ -3,6 +3,6 @@ class Connect::FakesController < ApplicationController
 
   def create
     authenticate Connect::Fake.authenticate
-    redirect_to after_logged_in_endpoint
+    logged_in!
   end
 end

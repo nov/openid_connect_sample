@@ -3,6 +3,6 @@ class Connect::FacebookController < ApplicationController
 
   def show
     authenticate Connect::Facebook.authenticate(cookies)
-    redirect_to after_logged_in_endpoint
+    logged_in!
   end
 end

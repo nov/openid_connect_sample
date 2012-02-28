@@ -4,6 +4,6 @@ class Connect::GoogleController < ApplicationController
   def show
     raise AuthenticationRequired.new('Authorization Code Required') unless params[:code]
     authenticate Connect::Google.authenticate(params[:code])
-    redirect_to after_logged_in_endpoint
+    logged_in!
   end
 end

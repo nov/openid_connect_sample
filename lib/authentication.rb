@@ -95,6 +95,11 @@ module Authentication
     @current_account = session[:current_account] = nil
   end
 
+  def logged_in!
+    current_account.update_attributes(last_logged_in_at: Time.now.utc)
+    redirect_to after_logged_in_endpoint
+  end
+
   def after_logged_in_endpoint
     session.delete(:after_logged_in_endpoint) || dashboard_url
   end
