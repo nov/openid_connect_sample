@@ -3,6 +3,8 @@ class AccessToken < ActiveRecord::Base
   belongs_to :client
   has_many :access_token_scopes
   has_many :scopes, through: :access_token_scopes
+  has_one :access_token_request_object
+  has_one :request_object, through: :access_token_request_object
 
   before_validation :setup, on: :create
 

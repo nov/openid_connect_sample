@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110910061828) do
+ActiveRecord::Schema.define(:version => 20120228164626) do
+
+  create_table "access_token_request_objects", :force => true do |t|
+    t.integer  "access_token_id"
+    t.integer  "request_object_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
 
   create_table "access_token_scopes", :force => true do |t|
     t.integer  "access_token_id"
@@ -39,6 +46,13 @@ ActiveRecord::Schema.define(:version => 20110910061828) do
   end
 
   add_index "accounts", ["identifier"], :name => "index_accounts_on_identifier", :unique => true
+
+  create_table "authorization_request_objects", :force => true do |t|
+    t.integer  "authorization_id"
+    t.integer  "request_object_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
 
   create_table "authorization_scopes", :force => true do |t|
     t.integer  "authorization_id"
@@ -128,6 +142,12 @@ ActiveRecord::Schema.define(:version => 20110910061828) do
     t.string   "sector_identifier"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+  end
+
+  create_table "request_objects", :force => true do |t|
+    t.text     "jwt_string"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "scopes", :force => true do |t|

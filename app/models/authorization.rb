@@ -3,6 +3,8 @@ class Authorization < ActiveRecord::Base
   belongs_to :client
   has_many :authorization_scopes
   has_many :scopes, through: :authorization_scopes
+  has_one :authorization_request_object
+  has_one :request_object, through: :authorization_request_object
 
   before_validation :setup, on: :create
 
@@ -39,6 +41,7 @@ class Authorization < ActiveRecord::Base
   def generate_access_token!
     token = account.access_tokens.create!(client: client)
     token.scopes << scopes
+    token.request_object = request_object
     token
   end
 end

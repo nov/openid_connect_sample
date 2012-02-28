@@ -5,7 +5,9 @@
     redirect_uri: @redirect_uri,
     scopes: @scopes,
     state: params[:state],
-    nonce: params[:nonce]
+    nonce: params[:nonce],
+    request: @request,
+    request_uri: @request_uri
   }
 %>
 
@@ -17,6 +19,10 @@
     <% @scopes.each do |scope| %>
       <dd><%= scope.name %></dd>
     <% end %>
+    <dt><%= 'authorization.request_object'.t %></dt>
+    <dd>
+      <pre><%= JSON.pretty_generate @request_object.as_json %></pre>
+    </dd>
   </dl>
   <nav>
     <ul>
