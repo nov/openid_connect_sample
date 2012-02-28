@@ -5,7 +5,7 @@
   <%= hidden_field_tag :redirect_uri, redirect_uri %>
   <%= hidden_field_tag :state, state %>
   <%= hidden_field_tag :nonce, nonce %>
-  <%= hidden_field_tag :request, request %>
+  <%= hidden_field_tag :request, _request_ %>
   <%= hidden_field_tag :request_uri, request_uri %>
   <%= submit_tag "client.#{action}".t %>
   <%= hidden_field_tag action, true %>

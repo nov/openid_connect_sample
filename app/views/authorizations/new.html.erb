@@ -6,7 +6,7 @@
     scopes: @scopes,
     state: params[:state],
     nonce: params[:nonce],
-    request: @request,
+    _request_: @_request_,
     request_uri: @request_uri
   }
 %>
@@ -19,10 +19,12 @@
     <% @scopes.each do |scope| %>
       <dd><%= scope.name %></dd>
     <% end %>
-    <dt><%= 'authorization.request_object'.t %></dt>
-    <dd>
-      <pre><%= JSON.pretty_generate @request_object.as_json %></pre>
-    </dd>
+    <% if @request_object %>
+      <dt><%= 'authorization.request_object'.t %></dt>
+      <dd>
+        <pre><%= JSON.pretty_generate @request_object.as_json %></pre>
+      </dd>
+    <% end %>
   </dl>
   <nav>
     <ul>
