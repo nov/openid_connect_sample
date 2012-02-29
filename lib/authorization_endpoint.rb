@@ -10,9 +10,9 @@ class AuthorizationEndpoint
       @scopes = req.scope.inject([]) do |_scopes_, scope|
         _scopes_ << Scope.find_by_name(scope) or req.invalid_scope! "Unknown scope: #{scope}"
       end
-      @request_object = if (@_request_ = req.request)
+      @request_object = if (@_request_ = req.request).present?
         OpenIDConnect::RequestObject.decode req.request, @client.secret
-      elsif (@request_uri = req.request_uri)
+      elsif (@request_uri = req.request_uri).present?
         OpenIDConnect::RequestObject.fetch req.request_uri, @client.secret
       end
       if Client.avairable_response_types.include? Array(req.response_type).collect(&:to_s).join(' ')
