@@ -23,9 +23,15 @@ class AccessToken < ActiveRecord::Base
     )
   end
 
-  def accessible?(_scopes_ = nil)
-    Array(_scopes_).all? do |_scope_|
-      scopes.include? _scope_
+  def accessible?(_scopes_or_claims_ = nil)
+    claims = request_object.try(:to_request_object).try(:user_info)
+    Array(_scopes_or_claims_).all? do |_scope_or_claim_|
+      case _scope_or_claim_
+      when Scope
+        scopes.include? _scope_or_claim_
+      else
+        claims.try(:accessible?, _scope_or_claim_)
+      end
     end
   end
 

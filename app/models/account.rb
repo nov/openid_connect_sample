@@ -16,12 +16,12 @@ class Account < ActiveRecord::Base
     user_info = (google || facebook || fake).user_info
     unless access_token.accessible?(Scope::PROFILE)
       user_info.all_attributes.each do |attribute|
-        user_info.send "#{attribute}=", nil
+        user_info.send("#{attribute}=", nil) unless access_token.accessible?(attribute)
       end
     end
-    user_info.email        = nil unless access_token.accessible?(Scope::EMAIL)
-    user_info.address      = nil unless access_token.accessible?(Scope::ADDRESS)
-    user_info.phone_number = nil unless access_token.accessible?(Scope::PHONE)
+    user_info.email        = nil unless access_token.accessible?(Scope::EMAIL)   || access_token.accessible?(:email)
+    user_info.address      = nil unless access_token.accessible?(Scope::ADDRESS) || access_token.accessible?(:address)
+    user_info.phone_number = nil unless access_token.accessible?(Scope::PHONE)   || access_token.accessible?(:phone)
     user_info.user_id = if access_token.client.ppid?
       PairwisePseudonymousIdentifier.find_or_create_by_sector_identifier(access_token.client.sector_identifier).identifier
     else
