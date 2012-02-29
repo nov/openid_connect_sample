@@ -37,7 +37,7 @@ class AuthorizationEndpoint
       authorization = account.authorizations.create!(client: @client, redirect_uri: res.redirect_uri, nonce: req.nonce)
       authorization.scopes << scopes
       if @request_object
-        authorization.create_authorization_request_object(
+        authorization.create_authorization_request_object!(
           request_object: RequestObject.new(
             jwt_string: @request_object.to_jwt(@client.secret, :HS256)
           )
@@ -49,7 +49,7 @@ class AuthorizationEndpoint
       access_token = account.access_tokens.create!(client: @client)
       access_token.scopes << scopes
       if @request_object
-        access_token.create_access_token_request_object(
+        access_token.create_access_token_request_object!(
           request_object: RequestObject.new(
             jwt_string: @request_object.to_jwt(@client.secret, :HS256)
           )
@@ -58,10 +58,18 @@ class AuthorizationEndpoint
       res.access_token = access_token.to_bearer_token
     end
     if response_types.include? :id_token
-      res.id_token = account.id_tokens.create!(
+      id_token = account.id_tokens.create!(
         client: @client,
         nonce: req.nonce
-      ).to_response_object.to_jwt IdToken.config[:private_key]
+      )
+      if @request_object
+        id_token.create_id_token_request_object!(
+          request_object: RequestObject.new(
+            jwt_string: @request_object.to_jwt(@client.secret, :HS256)
+          )
+        )
+      end
+      res.id_token = id_token.to_response_object.to_jwt IdToken.config[:private_key]
     end
     res.approve!
   end

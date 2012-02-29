@@ -1,6 +1,8 @@
 class IdToken < ActiveRecord::Base
   belongs_to :account
   belongs_to :client
+  has_one :id_token_request_object
+  has_one :request_object, through: :id_token_request_object
 
   before_validation :setup, on: :create
 
@@ -18,18 +20,36 @@ class IdToken < ActiveRecord::Base
     else
       account.identifier
     end
-    OpenIDConnect::ResponseObject::IdToken.new(
+    claims = {
       iss: self.class.config[:issuer],
       user_id: user_id,
       aud: client.identifier,
       nonce: nonce,
       exp: expires_at.to_i
-    ) do |t|
+    }
+    if accessible?(:auth_time)
+      claims[:auth_time] = account.last_logged_in_at.to_i
+    end
+    if required?(:acr) && !request_object.to_request_object.id_token.claims[:acr].collect(&:to_s).include?('0')
+      # TODO: return error, maybe not this place though.
+    end
+    if accessible?(:acr)
+      claims[:acr] = 0
+    end
+    OpenIDConnect::ResponseObject::IdToken.new(claims) do |t|
       t.header[:x5u] = self.class.config[:x509_url]
     end
   end
 
   private
+
+  def required?(claim)
+    request_object.try(:to_request_object).try(:id_token).try(:required?, claim)
+  end
+
+  def accessible?(claim)
+    request_object.try(:to_request_object).try(:id_token).try(:accessible?, claim)
+  end
 
   def setup
     self.expires_at = 6.hours.from_now

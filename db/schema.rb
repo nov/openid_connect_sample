@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120228164626) do
+ActiveRecord::Schema.define(:version => 20120229153919) do
 
   create_table "access_token_request_objects", :force => true do |t|
     t.integer  "access_token_id"
@@ -125,6 +125,13 @@ ActiveRecord::Schema.define(:version => 20120228164626) do
     t.string   "id_token"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "id_token_request_objects", :force => true do |t|
+    t.integer  "id_token_id"
+    t.integer  "request_object_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "id_tokens", :force => true do |t|
