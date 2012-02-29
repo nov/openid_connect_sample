@@ -30,7 +30,7 @@ class IdToken < ActiveRecord::Base
     if accessible?(:auth_time)
       claims[:auth_time] = account.last_logged_in_at.to_i
     end
-    if required?(:acr) && !request_object.to_request_object.id_token.claims[:acr].collect(&:to_s).include?('0')
+    if required?(:acr) && !request_object.to_request_object.id_token.claims[:acr][:values].collect(&:to_s).include?('0')
       # TODO: return error, maybe not this place though.
     end
     if accessible?(:acr)
