@@ -30,11 +30,12 @@ class IdToken < ActiveRecord::Base
     if accessible?(:auth_time)
       claims[:auth_time] = account.last_logged_in_at.to_i
     end
-    if required?(:acr) && !request_object.to_request_object.id_token.claims[:acr][:values].collect(&:to_s).include?('0')
-      # TODO: return error, maybe not this place though.
-    end
     if accessible?(:acr)
-      claims[:acr] = 0
+      required_acr = request_object.to_request_object.id_token.claims[:acr].try(:[], :values)
+      if required?(:acr) && required_acr && !required_acr.include?('0')
+        # TODO: return error, maybe not this place though.
+      end
+      claims[:acr] = '0'
     end
     OpenIDConnect::ResponseObject::IdToken.new(claims) do |t|
       t.header[:x5u] = self.class.config[:x509_url]
