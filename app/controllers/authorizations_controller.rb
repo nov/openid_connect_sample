@@ -23,6 +23,10 @@ class AuthorizationsController < ApplicationController
     @client, @response_type, @redirect_uri, @scopes, @_request_, @request_uri, @request_object = *[
       endpoint.client, endpoint.response_type, endpoint.redirect_uri, endpoint.scopes, endpoint._request_, endpoint.request_uri, endpoint.request_object
     ]
+    if !allow_approval && (max_age = @request_object.try(:id_token).try(:max_age))
+      user.last_logged_in_at > max_age.seconds.ago ||
+      unauthenticate! && require_authentication
+    end
     respond_as_rack_app *rack_response
   end
 
