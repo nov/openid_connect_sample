@@ -11,11 +11,11 @@
     <%= viewport_meta_tag %>
     <%= apple_app_capable_meta_tag %>
     <%= apple_app_icon_link_tag %>
-    <intent
-      action="http://openid.net/connect/webintents"
-      type="application/json"
-      href=".well-known/openid-configuration"
-    ></intent>
+    <%= content_tag(:intent, nil,
+      action: "http://openid.net/connect/webintents",
+      type: "application/json",
+      href: discovery_path('openid-configuration')
+    ) %>
   </head>
   <%= content_tag :body, class: controller_name do %>
     <%= yield :top %>

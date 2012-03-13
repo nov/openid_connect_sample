@@ -15,16 +15,16 @@ class DiscoveryController < ApplicationController
   def simple_web_discovery
     logger.info params[:service]
     if params[:service] == 'http://openid.net/specs/connect/1.0/issuer'
-      render json: {
-       :locations => [IdToken.config[:issuer]]
-      }
+      respond_with(
+        :locations => [IdToken.config[:issuer]]
+      )
     else
       raise HttpError::NotFound
     end
   end
 
   def openid_configuration
-    render json: {
+    respond_with(
       version: '3.0',
       issuer: IdToken.config[:issuer],
       authorization_endpoint: new_authorization_url,
@@ -42,6 +42,14 @@ class DiscoveryController < ApplicationController
       # * end_session_endpoint
       # * jwk_document
       # * iso29115_supported
-    }
+    )
+  end
+
+  def respond_with(json)
+    if params[:intent]
+      @json = json
+    else
+      render json: json
+    end
   end
 end

@@ -1,0 +1,10 @@
+<script>
+  $(function () {
+    if (window.intent) {
+      window.intent.postResult(<%= @json.to_json.html_safe %>);
+      setTimeout(function () {
+        window.close();
+      }, 500);
+    }
+  });
+</script>
