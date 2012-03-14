@@ -12,7 +12,12 @@
     <%= apple_app_capable_meta_tag %>
     <%= apple_app_icon_link_tag %>
     <%= content_tag(:intent, nil,
-      action: "http://openid.net/connect/webintents",
+      action: "http://openid.net/connect/discovery/simple-web-discovery",
+      type: "application/json",
+      href: discovery_path('simple-web-discovery', service: 'http://openid.net/specs/connect/1.0/issuer')
+    ) %>
+    <%= content_tag(:intent, nil,
+      action: "http://openid.net/connect/discovery/openid-configuration",
       type: "application/json",
       href: discovery_path('openid-configuration')
     ) %>
