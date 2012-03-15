@@ -14,12 +14,14 @@
     <%= content_tag(:intent, nil,
       action: "http://openid.net/connect/discovery/simple-web-discovery",
       type: "application/json",
-      href: discovery_path('simple-web-discovery', service: 'http://openid.net/specs/connect/1.0/issuer')
+      href: discovery_path('simple-web-discovery', service: 'http://openid.net/specs/connect/1.0/issuer'),
+      disposition: :inline
     ) %>
     <%= content_tag(:intent, nil,
       action: "http://openid.net/connect/discovery/openid-configuration",
       type: "application/json",
-      href: discovery_path('openid-configuration')
+      href: discovery_path('openid-configuration'),
+      disposition: :inline
     ) %>
   </head>
   <%= content_tag :body, class: controller_name do %>

@@ -1,10 +1,9 @@
+<%= javascript_include_tag 'http://webintents.org/webintents.js' %>
 <script>
-  $(function () {
-    if (window.intent) {
-      window.intent.postResult(<%= @json.to_json.html_safe %>);
-      setTimeout(function () {
-        window.close();
-      }, 500);
-    }
-  });
+  if (window.intent) {
+    window.intent.postResult(<%= @json.to_json.html_safe %>);
+    setTimeout(function () {
+      window.close();
+    }, 500);
+  }
 </script>
