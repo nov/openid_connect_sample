@@ -1,4 +1,3 @@
-<%= javascript_include_tag 'http://webintents.org/webintents.js' %>
 <script>
   if (window.intent) {
     window.intent.postResult(<%= @json.to_json.html_safe %>);

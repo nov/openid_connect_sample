@@ -1,6 +1,4 @@
 class DiscoveryController < ApplicationController
-  layout :false
-
   def show
     case params[:id]
     when 'simple-web-discovery'
