@@ -25,9 +25,10 @@ module Authentication
   end
 
   def authentication_required!(e)
-    redirect_to root_url, flash: {
-      error: e.message || 'Authentication Required'
-    }
+    # redirect_to root_url, flash: {
+    #   error: e.message || 'Authentication Required'
+    # }
+    redirect_to root_url
   end
 
   def anonymous_access_required!(e)
