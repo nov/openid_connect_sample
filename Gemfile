@@ -9,7 +9,7 @@ gem 'validate_url'
 gem 'validate_email'
 gem 'fb_graph'
 gem 'rack-oauth2'
-gem 'openid_connect', '0.2.0'
+gem 'openid_connect'
 
 group :development, :test do
   gem 'sqlite3'
