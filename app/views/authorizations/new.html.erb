@@ -22,7 +22,6 @@
     <% if @request_object %>
       <dt><%= 'authorization.request_object'.t %></dt>
       <dd>
-        <% Rails.logger.info @request_object.as_json %>
         <pre><%= JSON.pretty_generate @request_object.as_json %></pre>
       </dd>
     <% end %>
