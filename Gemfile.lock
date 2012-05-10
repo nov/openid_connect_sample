@@ -144,7 +144,7 @@ DEPENDENCIES
   fb_graph
   html5_validators
   jquery-rails
-  openid_connect (= 0.2.0.alpha3)
+  openid_connect
   pg
   rack-oauth2
   rack-ssl
