@@ -1,6 +1,8 @@
 class DiscoveryController < ApplicationController
   def show
     case params[:id]
+    when 'host-meta'
+      webfinger_discovery
     when 'simple-web-discovery'
       simple_web_discovery
     when 'openid-configuration'
@@ -12,11 +14,21 @@ class DiscoveryController < ApplicationController
 
   private
 
+  def webfinger_discovery
+    respond_with(
+      subject: params[:resource],
+      links: [{
+        rel: :issuer,
+        href: IdToken.config[:issuer]
+      }]
+    )
+  end
+
   def simple_web_discovery
     logger.info params[:service]
     if params[:service] == 'http://openid.net/specs/connect/1.0/issuer'
       respond_with(
-        :locations => [IdToken.config[:issuer]]
+        locations: [IdToken.config[:issuer]]
       )
     else
       raise HttpError::NotFound
