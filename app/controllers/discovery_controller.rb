@@ -1,6 +1,11 @@
 class DiscoveryController < ApplicationController
+  # TODO: Move me to gem
+  ISSUER_NAMESPACE = 'http://openid.net/specs/connect/1.0/issuer'
+
   def show
     case params[:id]
+    when 'host-meta'
+      webfinger_discovery
     when 'simple-web-discovery'
       simple_web_discovery
     when 'openid-configuration'
@@ -12,11 +17,22 @@ class DiscoveryController < ApplicationController
 
   private
 
+  def webfinger_discovery
+    jrd = {
+      links: [{
+        rel: ISSUER_NAMESPACE,
+        href: IdToken.config[:issuer]
+      }]
+    }
+    jrd[:subject] = params[:resource] if params[:resource].present?
+    respond_with jrd
+  end
+
   def simple_web_discovery
     logger.info params[:service]
-    if params[:service] == 'http://openid.net/specs/connect/1.0/issuer'
+    if params[:service] == ISSUER_NAMESPACE
       respond_with(
-        :locations => [IdToken.config[:issuer]]
+        locations: [IdToken.config[:issuer]]
       )
     else
       raise HttpError::NotFound
