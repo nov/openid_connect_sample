@@ -25,7 +25,8 @@ class IdToken < ActiveRecord::Base
       user_id: user_id,
       aud: client.identifier,
       nonce: nonce,
-      exp: expires_at.to_i
+      exp: expires_at.to_i,
+      iat: created_at.to_i
     }
     if accessible?(:auth_time)
       claims[:auth_time] = account.last_logged_in_at.to_i
