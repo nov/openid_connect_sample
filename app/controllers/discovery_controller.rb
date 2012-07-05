@@ -46,7 +46,6 @@ class DiscoveryController < ApplicationController
       authorization_endpoint: new_authorization_url,
       token_endpoint: access_tokens_url,
       userinfo_endpoint: user_info_url,
-      check_id_endpoint: id_token_url,
       registration_endpoint: connect_client_url,
       scopes_supported: Scope.all.collect(&:name),
       response_types_supported: Client.avairable_response_types,

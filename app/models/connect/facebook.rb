@@ -4,12 +4,9 @@ class Connect::Facebook < ActiveRecord::Base
   validates :identifier,   presence: true, uniqueness: true
   validates :access_token, presence: true, uniqueness: true
 
-  extend ActiveSupport::Memoizable
-
   def me
-    FbGraph::User.me(self.access_token).fetch
+    @me ||= FbGraph::User.me(self.access_token).fetch
   end
-  memoize :me
 
   def user_info
     attributes = {
@@ -27,19 +24,18 @@ class Connect::Facebook < ActiveRecord::Base
   end
 
   class << self
-    extend ActiveSupport::Memoizable
-
     def config
-      config = YAML.load_file("#{Rails.root}/config/connect/facebook.yml")[Rails.env].symbolize_keys
-      if Rails.env.production?
-        config.merge!(
-          client_id:     ENV['fb_client_id'],
-          client_secret: ENV['fb_client_secret']
-        )
+      unless @config
+        @config = YAML.load_file("#{Rails.root}/config/connect/facebook.yml")[Rails.env].symbolize_keys
+        if Rails.env.production?
+          @config.merge!(
+            client_id:     ENV['fb_client_id'],
+            client_secret: ENV['fb_client_secret']
+          )
+        end
       end
-      config
+      @config
     end
-    memoize :config
 
     def auth
       FbGraph::Auth.new config[:client_id], config[:client_secret]

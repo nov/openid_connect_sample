@@ -49,10 +49,10 @@ class Client < ActiveRecord::Base
       require_signed_request_object:    registrar.require_signed_request_object,
       contacts:                         registrar.contacts.try(:join, ' '),
       redirect_uris:                    registrar.redirect_uris.try(:join, ' '),
-      userinfo_signed_response_algs:    registrar.userinfo_signed_response_algs.try(:join, ' '),
-      userinfo_encrypted_response_algs: registrar.userinfo_encrypted_response_algs.try(:join, ' '),
-      id_token_signed_response_algs:    registrar.id_token_signed_response_algs.try(:join, ' '),
-      id_token_encrypted_response_algs: registrar.id_token_encrypted_response_algs.try(:join, ' ')
+      userinfo_signed_response_alg:     registrar.userinfo_signed_response_alg.try(:join, ' '),
+      userinfo_encrypted_response_alg:  registrar.userinfo_encrypted_response_alg.try(:join, ' '),
+      id_token_signed_response_alg:     registrar.id_token_signed_response_alg.try(:join, ' '),
+      id_token_encrypted_response_alg:  registrar.id_token_encrypted_response_alg.try(:join, ' ')
     }.delete_if do |key, value|
       value.nil?
     end

@@ -17,7 +17,6 @@ ConnectOp::Application.routes.draw do
 
   match '.well-known/:id', to: 'discovery#show'
   match 'user_info',       to: 'user_info#show', :via => [:get, :post]
-  match 'id_token',        to: 'id_tokens#show'
 
   post 'access_tokens', to: proc { |env| TokenEndpoint.new.call(env) }
   get  'cert.pem',      to: proc { |env| [200, {}, [IdToken.config[:cert].to_s]] }

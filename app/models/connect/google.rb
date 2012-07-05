@@ -4,20 +4,19 @@ class Connect::Google < ActiveRecord::Base
   validates :identifier,   presence: true, uniqueness: true
   validates :access_token, presence: true, uniqueness: true
 
-  extend ActiveSupport::Memoizable
-
   def id_token
-    hash = call_api self.class.config[:check_session_endpoint]
+    @id_token ||= call_api self.class.config[:check_session_endpoint]
     # NOTE: Google returns different format of id_token response
     # OpenIDConnect::ResponseObject::IdToken.new hash
   end
-  memoize :id_token
 
   def user_info
-    hash = call_api self.class.config[:user_info_endpoint]
-    OpenIDConnect::ResponseObject::UserInfo::OpenID.new hash
+    unless @user_info
+      hash = call_api self.class.config[:user_info_endpoint]
+      @user_info = OpenIDConnect::ResponseObject::UserInfo::OpenID.new hash
+    end
+    @user_info
   end
-  memoize :user_info
 
   private
 
@@ -47,16 +46,17 @@ class Connect::Google < ActiveRecord::Base
     extend ActiveSupport::Memoizable
 
     def config
-      config = YAML.load_file("#{Rails.root}/config/connect/google.yml")[Rails.env].symbolize_keys
-      if Rails.env.production?
-        config.merge!(
-          client_id:     ENV['g_client_id'],
-          client_secret: ENV['g_client_secret']
-        )
+      unless @config
+        @config = YAML.load_file("#{Rails.root}/config/connect/google.yml")[Rails.env].symbolize_keys
+        if Rails.env.production?
+          @config.merge!(
+            client_id:     ENV['g_client_id'],
+            client_secret: ENV['g_client_secret']
+          )
+        end
       end
-      config
+      @config
     end
-    memoize :config
 
     def client
       @client ||= Rack::OAuth2::Client.new(
