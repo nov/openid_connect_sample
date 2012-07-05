@@ -38,9 +38,7 @@ class IdToken < ActiveRecord::Base
       end
       claims[:acr] = '0'
     end
-    OpenIDConnect::ResponseObject::IdToken.new(claims) do |t|
-      t.header[:x5u] = self.class.config[:x509_url]
-    end
+    OpenIDConnect::ResponseObject::IdToken.new(claims)
   end
 
   private
