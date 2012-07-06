@@ -17,10 +17,10 @@ class CreateClients < ActiveRecord::Migration
         :require_signed_request_object,
         :contacts,
         :redirect_uris,
-        :userinfo_signed_response_algs,
-        :userinfo_encrypted_response_algs,
-        :id_token_signed_response_algs,
-        :id_token_encrypted_response_algs
+        :userinfo_signed_response_alg,
+        :userinfo_encrypted_response_alg,
+        :id_token_signed_response_alg,
+        :id_token_encrypted_response_alg
       )
       t.boolean :dynamic, :native, :ppid, default: false
       t.datetime :expires_at
