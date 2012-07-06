@@ -49,10 +49,10 @@ class Client < ActiveRecord::Base
       require_signed_request_object:    registrar.require_signed_request_object,
       contacts:                         registrar.contacts.try(:join, ' '),
       redirect_uris:                    registrar.redirect_uris.try(:join, ' '),
-      userinfo_signed_response_alg:     registrar.userinfo_signed_response_alg.try(:join, ' '),
-      userinfo_encrypted_response_alg:  registrar.userinfo_encrypted_response_alg.try(:join, ' '),
-      id_token_signed_response_alg:     registrar.id_token_signed_response_alg.try(:join, ' '),
-      id_token_encrypted_response_alg:  registrar.id_token_encrypted_response_alg.try(:join, ' ')
+      userinfo_signed_response_alg:     registrar.userinfo_signed_response_alg,
+      userinfo_encrypted_response_alg:  registrar.userinfo_encrypted_response_alg,
+      id_token_signed_response_alg:     registrar.id_token_signed_response_alg,
+      id_token_encrypted_response_alg:  registrar.id_token_encrypted_response_alg
     }.delete_if do |key, value|
       value.nil?
     end
@@ -62,10 +62,6 @@ class Client < ActiveRecord::Base
   [
     :contacts,
     :redirect_uris,
-    :userinfo_signed_response_algs,
-    :userinfo_encrypted_response_algs,
-    :id_token_signed_response_algs,
-    :id_token_encrypted_response_algs
   ].each do |plurar_attribute|
     define_method plurar_attribute do
       value = read_attribute(plurar_attribute)
