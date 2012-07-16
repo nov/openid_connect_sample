@@ -72,18 +72,10 @@ class Client < ActiveRecord::Base
   def as_json(options = {})
     hash = {
       client_id: identifier,
-      expires_in: expires_in
+      expires_at: expires_at.to_i
     }
     hash[:client_secret] = secret unless native?
     hash
-  end
-
-  def expires_in
-    if expires_at
-      (expires_at - Time.now.utc).to_i
-    else
-      0
-    end
   end
 
   private
