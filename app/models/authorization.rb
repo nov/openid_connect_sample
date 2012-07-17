@@ -11,7 +11,6 @@ class Authorization < ActiveRecord::Base
   validates :account,    presence: true
   validates :client,     presence: true
   validates :code,       presence: true, uniqueness: true
-  validates :nonce,      presence: true
   validates :expires_at, presence: true
 
   scope :valid, lambda {

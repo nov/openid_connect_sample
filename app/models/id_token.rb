@@ -8,7 +8,6 @@ class IdToken < ActiveRecord::Base
 
   validates :account, presence: true
   validates :client,  presence: true
-  validates :nonce,   presence: true
 
   scope :valid, lambda {
     where { expires_at >= Time.now.utc }
