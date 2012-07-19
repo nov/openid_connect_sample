@@ -43,8 +43,6 @@ class Connect::Google < ActiveRecord::Base
   end
 
   class << self
-    extend ActiveSupport::Memoizable
-
     def config
       unless @config
         @config = YAML.load_file("#{Rails.root}/config/connect/google.yml")[Rails.env].symbolize_keys

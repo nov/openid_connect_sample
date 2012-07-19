@@ -55,8 +55,6 @@ class IdToken < ActiveRecord::Base
   end
 
   class << self
-    extend ActiveSupport::Memoizable
-
     def decode(id_token)
       OpenIDConnect::ResponseObject::IdToken.decode id_token, config[:public_key]
     rescue => e
