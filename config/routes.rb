@@ -19,5 +19,5 @@ ConnectOp::Application.routes.draw do
   match 'user_info',       to: 'user_info#show', :via => [:get, :post]
 
   post 'access_tokens', to: proc { |env| TokenEndpoint.new.call(env) }
-  get  'cert.pem',      to: proc { |env| [200, {}, [IdToken.config[:cert].to_s]] }
+  get  'cert.pem',      to: proc { |env| [200, {'Content-Type' => 'application/x-x509-ca-cert'}, [IdToken.config[:cert].to_s]] }
 end
