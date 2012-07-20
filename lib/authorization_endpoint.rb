@@ -71,6 +71,7 @@ class AuthorizationEndpoint
       end
       res.id_token = id_token.to_response_object.to_jwt IdToken.config[:private_key] do |jwt|
         jwt.header[:x5u] = IdToken.config[:x509_url]
+        jwt.header[:jku] = IdToken.config[:jwk_url]
       end
     end
     res.approve!
