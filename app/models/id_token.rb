@@ -78,6 +78,18 @@ class IdToken < ActiveRecord::Base
         @config[:cert]        = cert
         @config[:public_key]  = cert.public_key
         @config[:private_key] = private_key
+        @config[:jwk] = {
+          keys: [
+            {
+              alg: :RSA,
+              exp: :AQAB,
+              kid: '2012-07-20',
+              mod: IdToken.config[:public_key].to_pem.gsub("\n", '').scan(
+                /-----BEGIN PUBLIC KEY-----(.*)-----END PUBLIC KEY-----/
+              ).first.first
+            }
+          ]
+        }
       end
       @config
     end
