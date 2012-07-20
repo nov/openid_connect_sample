@@ -80,12 +80,7 @@ class IdToken < ActiveRecord::Base
         @config[:private_key] = private_key
         @config[:jwk] = {
           keys: [
-            {
-              alg: :RSA,
-              exp: :AQAB,
-              kid: '2012-07-20',
-              mod: cert.public_key.to_pem.gsub("\n", '').scan(/KEY-----(.*)-----END/).first.first
-            }
+            JSON::JWK.encode(cert.public_key)
           ]
         }
       end
