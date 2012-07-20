@@ -84,7 +84,7 @@ class IdToken < ActiveRecord::Base
               alg: :RSA,
               exp: :AQAB,
               kid: '2012-07-20',
-              mod: IdToken.config[:public_key].to_pem.gsub("\n", '').scan(
+              mod: cert.public_key.to_pem.gsub("\n", '').scan(
                 /-----BEGIN PUBLIC KEY-----(.*)-----END PUBLIC KEY-----/
               ).first.first
             }
