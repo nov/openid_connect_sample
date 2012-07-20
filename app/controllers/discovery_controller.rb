@@ -51,7 +51,8 @@ class DiscoveryController < ApplicationController
       response_types_supported: Client.avairable_response_types,
       user_id_types_supported: ['public', 'pairwise'],
       id_token_algs_supported: [:RS256],
-      x509_url: IdToken.config[:x509_url]
+      x509_url: IdToken.config[:x509_url],
+      jwk_url: IdToken.config[:jwk_url]
       # NOT SUPPORTED YET
       # * refresh_session_endpoint
       # * end_session_endpoint
