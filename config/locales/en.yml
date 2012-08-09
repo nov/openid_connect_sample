@@ -8,7 +8,6 @@ en:
     authorization: Authorization Endpoint
     token: Token Endpoint
     user_info: UserInfo Endpoint
-    check_session: Check Session Endpoint
   # per model
   client:
     identifier: Client ID
