@@ -79,7 +79,7 @@ class IdToken < ActiveRecord::Base
         @config[:public_key]  = cert.public_key
         @config[:private_key] = private_key
         @config[:jwk] = JSON::JWK::Set.new(
-          JSON::JWK.new(cert.public_key, user: :sig)
+          JSON::JWK.new(cert.public_key, use: :sig)
         )
       end
       @config
