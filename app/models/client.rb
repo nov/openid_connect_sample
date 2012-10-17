@@ -84,5 +84,6 @@ class Client < ActiveRecord::Base
     self.identifier = SecureRandom.hex(16)
     self.secret     = SecureRandom.hex(32)
     self.expires_at = 1.hour.from_now if dynamic?
+    self.name       ||= 'Unknown'
   end
 end
