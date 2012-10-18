@@ -44,18 +44,18 @@ module ConnectOp
       req.invalid_token!
     end
 
-    class RequestResponseLogger
-      def initialize(app)
-        @app = app
-      end
-
-      def call(env)
-        Rails.logger.info "Cookies In Request: #{env['rack.request.cookie_string']}"
-        status, headers, body = @app.call(env)
-        Rails.logger.info "Set-Cookie Header In Response: #{headers['Set-Cookie']}"
-        [status, headers, body]
-      end
-    end
-    config.middleware.insert_before ActionDispatch::Cookies, RequestResponseLogger
+    # class RequestResponseLogger
+    #   def initialize(app)
+    #     @app = app
+    #   end
+    # 
+    #   def call(env)
+    #     Rails.logger.info "Cookies In Request: #{env['rack.request.cookie_string']}"
+    #     status, headers, body = @app.call(env)
+    #     Rails.logger.info "Set-Cookie Header In Response: #{headers['Set-Cookie']}"
+    #     [status, headers, body]
+    #   end
+    # end
+    # config.middleware.insert_before ActionDispatch::Cookies, RequestResponseLogger
   end
 end
