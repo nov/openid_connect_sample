@@ -1,0 +1,110 @@
+HOST: https://connect-op.heroku.com/
+
+--- OpenID Connect Provider API ---
+---
+Basic Profile Flow API Docs
+---
+
+--
+Discovery
+--
+[Step 1] Know whether the service is OpenID Connect IdP or not using Simple Web Discovery
+NOTE: This step can be skipped once the response cached.
+GET /.well-known/simple-web-discovery?service=http://openid.net/specs/connect/1.0/issuer&principal=<url-or-email>
+< 200
+< Content-Type: application/json
+{"locations": ["https://connect-op.heroku.com"]}
+
+[Step 2] If it's OpenID Connect IdP, get OpenID Connect Provider configuration.
+NOTE: This step can be skipped once the response cached.
+GET /.well-known/openid-configuration
+< 200
+< Content-Type: application/json
+{
+  "version": "3.0",
+  "issuer": "https://connect-op.heroku.com",
+  "authorization_endpoint": "https://connect-op.heroku.com/authorizations/new",
+  "token_endpoint": "https://connect-op.heroku.com/access_tokens",
+  "userinfo_endpoint": "https://connect-op.heroku.com/user_info",
+  "registration_endpoint": "https://connect-op.heroku.com/connect/client",
+  "scopes_supported": ["openid", "profile", "email", "address", "phone"],
+  "response_types_supported": ["code", "token", "id_token", "code token", "code id_token", "id_token token", "code id_token token"],
+  "user_id_types_supported": ["public", "pairwise"],
+  "id_token_algs_supported": ["RS256"],
+  "x509_url": "https://connect-op.heroku.com/cert.pem",
+  "jwk_url": "https://connect-op.heroku.com/jwk.json"
+}
+
+
+--
+Dynamic Client Registration
+--
+[Step 3] POST to the client registration endpoint found in Step 2.
+NOTE: This step can be skipped if your RP alreasy has client credentials.
+POST /connect/client
+type=client_associate&
+application_type=web&name=Nov%20RP&
+redirect_uris=https%3A%2F%2Fconnect-rp.heroku.com%2Fprovider%2F1
+< 200
+< Content-Type: application/json
+{
+  "client_id": "cf85868cd0f8393ad809c3e4d00cd7fa",
+  "client_secret": "5eddd5d7818a2d151ccbdd461a6356ea49685aef0277e4fe1d3f7219fdf21e0a",
+  "expires_at": 1350612902
+}
+
+
+--
+Obtain End-User Authorization
+--
+[Step 4] Let the user-agent send a GET request to the authorization endpoint found in Step 2 (usually via redirect response from RP).
+GET /authorizations/new?response_type=code&client_id=cf85868cd0f8393ad809c3e4d00cd7fa&scope=openid%20profile%20email&redirect_uri=https%3A%2F%2Fconnect-rp.heroku.com%2Fprovider%2F1&state=b98e92c29b23b4ef
+< 200
+< Content-Type: text/html
+<html>
+<head>
+  <title>Connect with 3rd party - Nov OP</title>
+</head>
+<body>
+  <!-- consent form here -->
+</body>
+
+[Step 5] Once the end-user approved, IdP redirect back him/her to redirect_uri with an authorization code.
+POST /authorizations
+appoved=true
+< 302
+< Location: https://connect-rp.heroku.com/providers/1?code=17cf335105e58fa29895f435117829b05d2147941409133fdf7d38ff2e74a5d0&state=b98e92c29b23b4ef
+
+
+--
+Obtain Access Token
+--
+[Step 6] Exchange the given authorization code with an access token at the token endpoint found in Step 2.
+POST /access_tokens
+> Authorization: Basic <base64-encoded-client-credentials>
+grant_type=authorization_code&code=17cf335105e58fa29895f435117829b05d2147941409133fdf7d38ff2e74a5d0
+< 200
+{
+  "access_token": "0732bea2c4909729f9db6ab6d166e3d5c6859e503603d657db1dd31b40990e3f",
+  "token_type": "bearer",
+  "expires_in": 3600,
+  "refresh_token": "a4df93cd538f8a304f123edc2e5730006edbb923118645c1d747abcbf8206665",
+  "id_token": "eyJ0...NiJ9.eyJ1c...I6IjIifX0.DeWt4Qu...ZXso"
+}
+
+
+--
+Obtain UserInfo
+--
+[Step 7] Get user profile from the userinfo endpoint found in Step 2.
+GET /user_info
+> Authoriztion: Bearer 0732bea2c4909729f9db6ab6d166e3d5c6859e503603d657db1dd31b40990e3f
+< 200
+{
+  "user_id": "79c97b7e0379dd103a6b9f2cbb476f7a",
+  "name": "Fake Account",
+  "profile": "http://example.com/fake",
+  "locale": "ja_JP",
+  "email": "fake@example.com"
+}
+
