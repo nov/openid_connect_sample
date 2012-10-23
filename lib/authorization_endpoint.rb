@@ -7,6 +7,9 @@ class AuthorizationEndpoint
     @app = Rack::OAuth2::Server::Authorize.new do |req, res|
       @client = Client.find_by_identifier(req.client_id) || req.bad_request!
       res.redirect_uri = @redirect_uri = req.verify_redirect_uri!(@client.redirect_uris)
+      if res.protocol_params_location == :fragment && req.nonce.blank?
+        req.invalid_request! 'nonce required'
+      end
       @scopes = req.scope.inject([]) do |_scopes_, scope|
         _scopes_ << Scope.find_by_name(scope) or req.invalid_scope! "Unknown scope: #{scope}"
       end
@@ -58,18 +61,21 @@ class AuthorizationEndpoint
       res.access_token = access_token.to_bearer_token
     end
     if response_types.include? :id_token
-      id_token = account.id_tokens.create!(
+      _id_token_ = account.id_tokens.create!(
         client: @client,
         nonce: req.nonce
       )
       if @request_object
-        id_token.create_id_token_request_object!(
+        _id_token_.create_id_token_request_object!(
           request_object: RequestObject.new(
             jwt_string: @request_object.to_jwt(@client.secret, :HS256)
           )
         )
       end
-      res.id_token = id_token.to_response_object.to_jwt IdToken.config[:private_key] do |jwt|
+      id_token = _id_token_.to_response_object
+      id_token.code = res.code if res.respond_to?(:code)
+      id_token.access_token = res.access_token if res.respond_to?(:access_token)
+      res.id_token = id_token.to_jwt IdToken.config[:private_key] do |jwt|
         jwt.header[:x5u] = IdToken.config[:x509_url]
         jwt.header[:jku] = IdToken.config[:jwk_url]
       end
