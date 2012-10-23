@@ -26,7 +26,7 @@ class Client < ActiveRecord::Base
     client = case registrar.type
     when 'client_associate'
       dynamic.new
-    when 'client_update'
+    when 'client_update', 'rotate_secret'
       client = dynamic.find_by_identifier! registrar.client_id
       unless client.secret == registrar.client_secret
         registrar.errors.add :client_secret
@@ -34,27 +34,31 @@ class Client < ActiveRecord::Base
       client
     end
     registrar.validate!
-    client.attributes = {
-      native:                           registrar.application_type == 'native',
-      ppid:                             registrar.user_id_type == 'pairwise',
-      name:                             registrar.application_name,
-      logo_url:                         registrar.logo_url,
-      token_endpoint_auth_type:         registrar.token_endpoint_auth_type,
-      policy_url:                       registrar.policy_url,
-      jwk_url:                          registrar.jwk_url,
-      jwk_encryption_url:               registrar.jwk_encryption_url,
-      x509_url:                         registrar.x509_url,
-      x509_encryption_url:              registrar.x509_encryption_url,
-      sector_identifier:                registrar.sector_identifier,
-      require_signed_request_object:    registrar.require_signed_request_object,
-      contacts:                         registrar.contacts.try(:join, ' '),
-      redirect_uris:                    registrar.redirect_uris.try(:join, ' '),
-      userinfo_signed_response_alg:     registrar.userinfo_signed_response_alg,
-      userinfo_encrypted_response_alg:  registrar.userinfo_encrypted_response_alg,
-      id_token_signed_response_alg:     registrar.id_token_signed_response_alg,
-      id_token_encrypted_response_alg:  registrar.id_token_encrypted_response_alg
-    }.delete_if do |key, value|
-      value.nil?
+    if registrar.type == 'rotate_secret'
+      client.secret = SecureRandom.hex(32)
+    else
+      client.attributes = {
+        native:                           registrar.application_type == 'native',
+        ppid:                             registrar.user_id_type == 'pairwise',
+        name:                             registrar.application_name,
+        logo_url:                         registrar.logo_url,
+        token_endpoint_auth_type:         registrar.token_endpoint_auth_type,
+        policy_url:                       registrar.policy_url,
+        jwk_url:                          registrar.jwk_url,
+        jwk_encryption_url:               registrar.jwk_encryption_url,
+        x509_url:                         registrar.x509_url,
+        x509_encryption_url:              registrar.x509_encryption_url,
+        sector_identifier:                registrar.sector_identifier,
+        require_signed_request_object:    registrar.require_signed_request_object,
+        contacts:                         registrar.contacts.try(:join, ' '),
+        redirect_uris:                    registrar.redirect_uris.try(:join, ' '),
+        userinfo_signed_response_alg:     registrar.userinfo_signed_response_alg,
+        userinfo_encrypted_response_alg:  registrar.userinfo_encrypted_response_alg,
+        id_token_signed_response_alg:     registrar.id_token_signed_response_alg,
+        id_token_encrypted_response_alg:  registrar.id_token_encrypted_response_alg
+      }.delete_if do |key, value|
+        value.nil?
+      end
     end
     client
   end

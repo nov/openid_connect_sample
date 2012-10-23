@@ -3,7 +3,7 @@ class AuthorizationsController < ApplicationController
 
   rescue_from Rack::OAuth2::Server::Authorize::BadRequest do |e|
     @error = e
-    logger.info e.backtrace.join("\n")
+    logger.info e.backtrace[0,10].join("\n")
     render :error, status: e.status
   end
 
