@@ -76,7 +76,8 @@ class Client < ActiveRecord::Base
   def as_json(options = {})
     hash = {
       client_id: identifier,
-      expires_at: expires_at.to_i
+      expires_at: expires_at.to_i,
+      registration_access_token: 'fake'
     }
     hash[:client_secret] = secret unless native?
     hash
