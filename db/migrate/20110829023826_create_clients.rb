@@ -14,7 +14,7 @@ class CreateClients < ActiveRecord::Migration
         :x509_url,
         :x509_encryption_url,
         :sector_identifier,
-        :require_signed_request_object,
+        :request_object_signing_alg,
         :contacts,
         :redirect_uris,
         :userinfo_signed_response_alg,

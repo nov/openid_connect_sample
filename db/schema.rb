@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(:version => 20120229153919) do
     t.string   "x509_url"
     t.string   "x509_encryption_url"
     t.string   "sector_identifier"
-    t.string   "require_signed_request_object"
+    t.string   "request_object_signing_alg"
     t.string   "contacts"
     t.string   "redirect_uris"
     t.string   "userinfo_signed_response_alg"
