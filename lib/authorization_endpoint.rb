@@ -14,9 +14,9 @@ class AuthorizationEndpoint
         _scopes_ << Scope.find_by_name(scope) or req.invalid_scope! "Unknown scope: #{scope}"
       end
       @request_object = if (@_request_ = req.request).present?
-        OpenIDConnect::RequestObject.decode req.request, @client.secret
+        OpenIDConnect::RequestObject.decode req.request, nil # @client.secret
       elsif (@request_uri = req.request_uri).present?
-        OpenIDConnect::RequestObject.fetch req.request_uri, @client.secret
+        OpenIDConnect::RequestObject.fetch req.request_uri, nil # @client.secret
       end
       if Client.avairable_response_types.include? Array(req.response_type).collect(&:to_s).join(' ')
         if allow_approval

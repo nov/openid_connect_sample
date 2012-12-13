@@ -1,6 +1,4 @@
 class AuthorizationsController < ApplicationController
-  before_filter :require_authentication
-
   rescue_from Rack::OAuth2::Server::Authorize::BadRequest do |e|
     @error = e
     logger.info e.backtrace[0,10].join("\n")
@@ -23,6 +21,7 @@ class AuthorizationsController < ApplicationController
     @client, @response_type, @redirect_uri, @scopes, @_request_, @request_uri, @request_object = *[
       endpoint.client, endpoint.response_type, endpoint.redirect_uri, endpoint.scopes, endpoint._request_, endpoint.request_uri, endpoint.request_object
     ]
+    require_authentication
     if (
       !allow_approval &&
       (max_age = @request_object.try(:id_token).try(:max_age)) &&
