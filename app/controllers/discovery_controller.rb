@@ -4,7 +4,7 @@ class DiscoveryController < ApplicationController
 
   def show
     case params[:id]
-    when 'host-meta'
+    when 'webfinger'
       webfinger_discovery
     when 'simple-web-discovery'
       simple_web_discovery
@@ -19,6 +19,7 @@ class DiscoveryController < ApplicationController
 
   def webfinger_discovery
     jrd = {
+      expires: 1.week.from_now,
       links: [{
         rel: ISSUER_NAMESPACE,
         href: IdToken.config[:issuer]
