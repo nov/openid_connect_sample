@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails'
+gem 'rails', '~>3.2.11'
 gem 'jquery-rails'
 gem 'squeel'
 gem 'constant_cache'
