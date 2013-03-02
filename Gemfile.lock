@@ -61,7 +61,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.21)
     multi_json (1.6.1)
-    openid_connect (0.4.1)
+    openid_connect (0.5.0)
       activemodel (>= 3)
       attr_required (>= 0.0.5)
       json (>= 1.4.3)
@@ -71,6 +71,7 @@ GEM
       tzinfo
       validate_email
       validate_url
+      webfinger (>= 0.0.2)
     pg (0.14.1)
     polyamorous (0.5.0)
       activerecord (~> 3.0)
@@ -137,6 +138,10 @@ GEM
       mail (>= 2.2.5)
     validate_url (0.2.0)
       activemodel (>= 3.0.0)
+    webfinger (0.0.4)
+      activesupport (>= 3)
+      httpclient (>= 2.2.0.2)
+      multi_json
 
 PLATFORMS
   ruby
