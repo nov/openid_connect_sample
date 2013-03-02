@@ -150,7 +150,7 @@ DEPENDENCIES
   pg
   rack-oauth2
   rack-ssl
-  rails (~> 3.2.11)
+  rails (~> 3.2)
   sqlite3
   squeel
   turn
