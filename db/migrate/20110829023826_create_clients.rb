@@ -7,7 +7,7 @@ class CreateClients < ActiveRecord::Migration
         :secret,
         :name,
         :logo_url,
-        :token_endpoint_auth_type,
+        :token_endpoint_auth_method,
         :policy_url,
         :jwk_url,
         :jwk_encryption_url,
@@ -24,6 +24,7 @@ class CreateClients < ActiveRecord::Migration
       )
       t.boolean :dynamic, :native, :ppid, default: false
       t.datetime :expires_at
+      t.text :raw_registered_json
       t.timestamps
     end
     add_index :clients, :identifier, unique: true

@@ -14,14 +14,14 @@ class IdToken < ActiveRecord::Base
   }
 
   def to_response_object
-    user_id = if client.ppid?
+    subject = if client.ppid?
       account.pairwise_pseudonymous_identifiers.find_or_create_by_sector_identifier(client.sector_identifier).identifier
     else
       account.identifier
     end
     claims = {
       iss: self.class.config[:issuer],
-      user_id: user_id,
+      sub: subject,
       aud: client.identifier,
       nonce: nonce,
       exp: expires_at.to_i,

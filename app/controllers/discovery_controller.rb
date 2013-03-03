@@ -51,8 +51,9 @@ class DiscoveryController < ApplicationController
       scopes_supported: Scope.all.collect(&:name),
       response_types_supported: Client.avairable_response_types,
       request_object_signing_alg_values_supported: [:HS256, :HS384, :HS512],
-      user_id_types_supported: ['public', 'pairwise'],
+      subject_types_supported: ['public', 'pairwise'],
       id_token_signing_alg_values_supported: [:RS256],
+      claims_supported: ['sub', 'iss', 'name', 'email', 'address', 'phone_number'],
       x509_url: IdToken.config[:x509_url],
       jwk_url: IdToken.config[:jwk_url]
     )

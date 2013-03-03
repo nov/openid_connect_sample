@@ -23,8 +23,8 @@ class Client < ActiveRecord::Base
   end
 
   def self.from_registrar(registrar)
-    client = case registrar.type
-    when 'client_associate'
+    client = case registrar.operation
+    when 'client_register'
       dynamic.new
     when 'client_update', 'rotate_secret'
       client = dynamic.find_by_identifier! registrar.client_id
@@ -34,15 +34,15 @@ class Client < ActiveRecord::Base
       client
     end
     registrar.validate!
-    if registrar.type == 'rotate_secret'
+    if registrar.operation == 'rotate_secret'
       client.secret = SecureRandom.hex(32)
     else
       client.attributes = {
         native:                          registrar.application_type == 'native',
-        ppid:                            registrar.user_id_type == 'pairwise',
-        name:                            registrar.application_name,
+        ppid:                            registrar.subject_type == 'pairwise',
+        name:                            registrar.client_name,
         logo_url:                        registrar.logo_url,
-        token_endpoint_auth_type:        registrar.token_endpoint_auth_type,
+        token_endpoint_auth_method:      registrar.token_endpoint_auth_method,
         policy_url:                      registrar.policy_url,
         jwk_url:                         registrar.jwk_url,
         jwk_encryption_url:              registrar.jwk_encryption_url,
@@ -59,6 +59,7 @@ class Client < ActiveRecord::Base
       }.delete_if do |key, value|
         value.nil?
       end
+      client.registered_json = registrar.as_json
     end
     client
   end
@@ -73,12 +74,21 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def registered_json
+    JSON.parse raw_registered_json
+  end
+
+  def registered_json=(hash)
+    hash.delete :operation
+    self.raw_registered_json = hash.to_json
+  end
+
   def as_json(options = {})
-    hash = {
+    hash = registered_json.merge(
       client_id: identifier,
       expires_at: expires_at.to_i,
       registration_access_token: 'fake'
-    }
+    )
     hash[:client_secret] = secret unless native?
     hash
   end

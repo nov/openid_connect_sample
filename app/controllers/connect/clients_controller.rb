@@ -10,8 +10,8 @@ class Connect::ClientsController < ApplicationController
   rescue_from OpenIDConnect::ValidationFailed do |e|
     logger.info e.object
     error = case
-    when e.object.invalid?(:type)
-      :invalid_type
+    when e.object.invalid?(:operation)
+      :invalid_operation
     when e.object.invalid?(:client_id)
       :invalid_client_id
     when e.object.invalid?(:client_secret)

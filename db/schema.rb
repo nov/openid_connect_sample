@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(:version => 20120229153919) do
     t.string   "secret"
     t.string   "name"
     t.string   "logo_url"
-    t.string   "token_endpoint_auth_type"
+    t.string   "token_endpoint_auth_method"
     t.string   "policy_url"
     t.string   "jwk_url"
     t.string   "jwk_encryption_url"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(:version => 20120229153919) do
     t.boolean  "native",                          :default => false
     t.boolean  "ppid",                            :default => false
     t.datetime "expires_at"
+    t.text     "raw_registered_json"
     t.datetime "created_at",                                         :null => false
     t.datetime "updated_at",                                         :null => false
   end

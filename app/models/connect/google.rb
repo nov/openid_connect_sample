@@ -77,7 +77,7 @@ class Connect::Google < ActiveRecord::Base
       token = client.access_token!
       connect = find_or_initialize_by_identifier new(
         access_token: token.access_token
-      ).id_token[:user_id]
+      ).id_token[:sub]
       connect.access_token = token.access_token
       connect.save!
       connect.account || Account.create!(google: connect)
