@@ -53,6 +53,7 @@ class DiscoveryController < ApplicationController
       request_object_signing_alg_values_supported: [:HS256, :HS384, :HS512],
       subject_types_supported: ['public', 'pairwise'],
       id_token_signing_alg_values_supported: [:RS256],
+      token_endpoint_auth_methods_supported: ['client_secret_basic', 'client_secret_post'],
       claims_supported: ['sub', 'iss', 'name', 'email', 'address', 'phone_number'],
       x509_url: IdToken.config[:x509_url],
       jwk_url: IdToken.config[:jwk_url]
