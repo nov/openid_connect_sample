@@ -19,7 +19,6 @@ class DiscoveryController < ApplicationController
 
   def webfinger_discovery
     jrd = {
-      expires: 1.week.from_now,
       links: [{
         rel: ISSUER_NAMESPACE,
         href: IdToken.config[:issuer]
