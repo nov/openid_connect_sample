@@ -28,21 +28,20 @@ class DiscoveryController < ApplicationController
 
   def openid_configuration
     render json: {
-      version: '3.0',
       issuer: IdToken.config[:issuer],
       authorization_endpoint: new_authorization_url,
       token_endpoint: access_tokens_url,
       userinfo_endpoint: user_info_url,
+      jwks_uri: IdToken.config[:jwks_uri],
       registration_endpoint: connect_client_url,
       scopes_supported: Scope.all.collect(&:name),
-      response_types_supported: Client.avairable_response_types,
+      response_types_supported: Client.available_response_types,
+      grant_types_supported: Client.available_grant_types,
       request_object_signing_alg_values_supported: [:HS256, :HS384, :HS512],
       subject_types_supported: ['public', 'pairwise'],
       id_token_signing_alg_values_supported: [:RS256],
       token_endpoint_auth_methods_supported: ['client_secret_basic', 'client_secret_post'],
-      claims_supported: ['sub', 'iss', 'name', 'email', 'address', 'phone_number'],
-      x509_url: IdToken.config[:x509_url],
-      jwk_url: IdToken.config[:jwk_url]
+      claims_supported: ['sub', 'iss', 'name', 'email', 'address', 'phone_number']
     }
   end
 end

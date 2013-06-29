@@ -18,7 +18,7 @@ class AuthorizationEndpoint
       elsif (@request_uri = req.request_uri).present?
         OpenIDConnect::RequestObject.fetch req.request_uri, nil # @client.secret
       end
-      if Client.avairable_response_types.include? Array(req.response_type).collect(&:to_s).join(' ')
+      if Client.available_response_types.include? Array(req.response_type).collect(&:to_s).join(' ')
         if allow_approval
           if approved
             approved! req, res
@@ -75,10 +75,6 @@ class AuthorizationEndpoint
       id_token = _id_token_.to_response_object
       id_token.code = res.code if res.respond_to?(:code)
       id_token.access_token = res.access_token if res.respond_to?(:access_token)
-      res.id_token = id_token.to_jwt IdToken.config[:private_key] do |jwt|
-        jwt.header[:x5u] = IdToken.config[:x509_url]
-        jwt.header[:jku] = IdToken.config[:jwk_url]
-      end
     end
     res.approve!
   end

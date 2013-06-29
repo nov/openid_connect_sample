@@ -66,8 +66,7 @@ class IdToken < ActiveRecord::Base
       unless @config
         config_path = File.join Rails.root, 'config/connect/id_token'
         @config = YAML.load_file(File.join(config_path, 'issuer.yml'))[Rails.env].symbolize_keys
-        @config[:x509_url] = File.join(@config[:issuer], 'cert.pem')
-        @config[:jwk_url]  = File.join(@config[:issuer], 'jwk.json')
+        @config[:jwks_uri] = File.join(@config[:issuer], 'jwks.json')
         private_key = OpenSSL::PKey::RSA.new(
           File.read(File.join(config_path, 'private.key')),
           'pass-phrase'
@@ -75,10 +74,9 @@ class IdToken < ActiveRecord::Base
         cert = OpenSSL::X509::Certificate.new(
           File.read(File.join(config_path, 'cert.pem'))
         )
-        @config[:cert]        = cert
         @config[:public_key]  = cert.public_key
         @config[:private_key] = private_key
-        @config[:jwk] = JSON::JWK::Set.new(
+        @config[:jwk_set] = JSON::JWK::Set.new(
           JSON::JWK.new(cert.public_key, use: :sig)
         )
       end

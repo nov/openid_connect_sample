@@ -19,6 +19,5 @@ ConnectOp::Application.routes.draw do
   match 'user_info',       to: 'user_info#show', :via => [:get, :post]
 
   post 'access_tokens', to: proc { |env| TokenEndpoint.new.call(env) }
-  get  'cert.pem',      to: proc { |env| [200, {'Content-Type' => 'application/x-x509-ca-cert'}, [IdToken.config[:cert].to_pem]] }
-  get  'jwk.json',      to: proc { |env| [200, {'Content-Type' => 'application/json'}, [IdToken.config[:jwk].to_json]] }
+  get  'jwks.json',     to: proc { |env| [200, {'Content-Type' => 'application/json'}, [IdToken.config[:jwk_set].to_json]] }
 end
