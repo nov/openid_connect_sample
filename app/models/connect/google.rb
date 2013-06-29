@@ -1,14 +1,10 @@
 class Connect::Google < ActiveRecord::Base
+  serialize :id_token
+
   belongs_to :account
 
   validates :identifier,   presence: true, uniqueness: true
   validates :access_token, presence: true, uniqueness: true
-
-  def id_token
-    @id_token ||= call_api self.class.config[:check_session_endpoint]
-    # NOTE: Google returns different format of id_token response
-    # OpenIDConnect::ResponseObject::IdToken.new hash
-  end
 
   def userinfo
     unless @userinfo
@@ -57,7 +53,7 @@ class Connect::Google < ActiveRecord::Base
     end
 
     def client
-      @client ||= Rack::OAuth2::Client.new(
+      @client ||= OpenIDConnect::Client.new(
         identifier:             config[:client_id],
         secret:                 config[:client_secret],
         authorization_endpoint: config[:authorization_endpoint],
@@ -72,13 +68,30 @@ class Connect::Google < ActiveRecord::Base
       )
     end
 
+    def certs
+      unless @certs
+        response = OpenIDConnect.http_client.get 'https://www.googleapis.com/oauth2/v1/certs'
+        pems = JSON.parse response.body
+        @certs = pems.inject({}) do |certs, (key, pem)|
+          certs.merge key => OpenSSL::X509::Certificate.new(pem)
+        end
+      end
+      @certs
+    end
+
+    def public_keys
+      certs.values.collect(&:public_key)
+    end
+
     def authenticate(code)
       client.authorization_code = code
-      token = client.access_token!
-      connect = find_or_initialize_by_identifier new(
-        access_token: token.access_token
-      ).id_token[:sub]
+      token = client.access_token! :secret_in_body
+      id_token = OpenIDConnect::ResponseObject::IdToken.decode(
+        token.id_token, public_keys.first
+      )
+      connect = find_or_initialize_by_identifier id_token.subject
       connect.access_token = token.access_token
+      connect.id_token = id_token
       connect.save!
       connect.account || Account.create!(google: connect)
     end
