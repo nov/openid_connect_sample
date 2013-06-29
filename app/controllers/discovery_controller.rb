@@ -6,8 +6,6 @@ class DiscoveryController < ApplicationController
     case params[:id]
     when 'webfinger'
       webfinger_discovery
-    when 'simple-web-discovery'
-      simple_web_discovery
     when 'openid-configuration'
       openid_configuration
     else
@@ -25,22 +23,11 @@ class DiscoveryController < ApplicationController
       }]
     }
     jrd[:subject] = params[:resource] if params[:resource].present?
-    respond_with jrd
-  end
-
-  def simple_web_discovery
-    logger.info params[:service]
-    if params[:service] == ISSUER_NAMESPACE
-      respond_with(
-        locations: [IdToken.config[:issuer]]
-      )
-    else
-      raise HttpError::NotFound
-    end
+    render json: jrd, content_type: Mime::JRD
   end
 
   def openid_configuration
-    respond_with(
+    render json: {
       version: '3.0',
       issuer: IdToken.config[:issuer],
       authorization_endpoint: new_authorization_url,
@@ -56,14 +43,6 @@ class DiscoveryController < ApplicationController
       claims_supported: ['sub', 'iss', 'name', 'email', 'address', 'phone_number'],
       x509_url: IdToken.config[:x509_url],
       jwk_url: IdToken.config[:jwk_url]
-    )
-  end
-
-  def respond_with(json)
-    if params[:intent]
-      @json = json
-    else
-      render json: json
-    end
+    }
   end
 end
