@@ -1,7 +1,7 @@
 class Connect::Fake < ActiveRecord::Base
   belongs_to :account
 
-  def user_info
+  def userinfo
     OpenIDConnect::ResponseObject::UserInfo::OpenID.new(
       name:         'Fake Account',
       email:        'fake@example.com',

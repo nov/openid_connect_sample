@@ -8,7 +8,7 @@ class Connect::Facebook < ActiveRecord::Base
     @me ||= FbGraph::User.me(self.access_token).fetch
   end
 
-  def user_info
+  def userinfo
     attributes = {
       id:       identifier,
       name:     me.name,

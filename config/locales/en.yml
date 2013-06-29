@@ -7,7 +7,7 @@ en:
     help: Protocol Endpoints
     authorization: Authorization Endpoint
     token: Token Endpoint
-    user_info: UserInfo Endpoint
+    userinfo: UserInfo Endpoint
   # per model
   client:
     identifier: Client ID
@@ -28,7 +28,7 @@ en:
       title: Endpoint Info
   clients:
     new:
-      title: Register New Client 
+      title: Register New Client
   authorizations:
     new:
       title: Authorize %{client} ?

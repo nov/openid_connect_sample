@@ -79,25 +79,16 @@ ActiveRecord::Schema.define(:version => 20120229153919) do
     t.string   "identifier"
     t.string   "secret"
     t.string   "name"
-    t.string   "logo_url"
-    t.string   "token_endpoint_auth_method"
-    t.string   "policy_url"
-    t.string   "jwks_url"
+    t.string   "jwks_uri"
     t.string   "sector_identifier"
-    t.string   "request_object_signing_alg"
-    t.string   "contacts"
     t.string   "redirect_uris"
-    t.string   "userinfo_signed_response_alg"
-    t.string   "userinfo_encrypted_response_alg"
-    t.string   "id_token_signed_response_alg"
-    t.string   "id_token_encrypted_response_alg"
-    t.boolean  "dynamic",                         :default => false
-    t.boolean  "native",                          :default => false
-    t.boolean  "ppid",                            :default => false
+    t.boolean  "dynamic",             :default => false
+    t.boolean  "native",              :default => false
+    t.boolean  "ppid",                :default => false
     t.datetime "expires_at"
     t.text     "raw_registered_json"
-    t.datetime "created_at",                                         :null => false
-    t.datetime "updated_at",                                         :null => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
   end
 
   add_index "clients", ["identifier"], :name => "index_clients_on_identifier", :unique => true

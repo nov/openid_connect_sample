@@ -10,12 +10,12 @@ class Connect::Google < ActiveRecord::Base
     # OpenIDConnect::ResponseObject::IdToken.new hash
   end
 
-  def user_info
-    unless @user_info
-      hash = call_api self.class.config[:user_info_endpoint]
-      @user_info = OpenIDConnect::ResponseObject::UserInfo::OpenID.new hash
+  def userinfo
+    unless @userinfo
+      hash = call_api self.class.config[:userinfo_endpoint]
+      @userinfo = OpenIDConnect::ResponseObject::UserInfo::OpenID.new hash
     end
-    @user_info
+    @userinfo
   end
 
   private

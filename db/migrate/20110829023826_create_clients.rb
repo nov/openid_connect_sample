@@ -6,17 +6,9 @@ class CreateClients < ActiveRecord::Migration
         :identifier,
         :secret,
         :name,
-        :logo_url,
-        :token_endpoint_auth_method,
         :jwks_uri,
         :sector_identifier,
-        :request_object_signing_alg,
-        :contacts,
-        :redirect_uris,
-        :userinfo_signed_response_alg,
-        :userinfo_encrypted_response_alg,
-        :id_token_signed_response_alg,
-        :id_token_encrypted_response_alg
+        :redirect_uris
       )
       t.boolean :dynamic, :native, :ppid, default: false
       t.datetime :expires_at

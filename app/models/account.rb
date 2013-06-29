@@ -13,21 +13,21 @@ class Account < ActiveRecord::Base
   validates :identifier, presence: true, uniqueness: true
 
   def to_response_object(access_token)
-    user_info = (google || facebook || fake).user_info
+    userinfo = (google || facebook || fake).userinfo
     unless access_token.accessible?(Scope::PROFILE)
-      user_info.all_attributes.each do |attribute|
-        user_info.send("#{attribute}=", nil) unless access_token.accessible?(attribute)
+      userinfo.all_attributes.each do |attribute|
+        userinfo.send("#{attribute}=", nil) unless access_token.accessible?(attribute)
       end
     end
-    user_info.email        = nil unless access_token.accessible?(Scope::EMAIL)   || access_token.accessible?(:email)
-    user_info.address      = nil unless access_token.accessible?(Scope::ADDRESS) || access_token.accessible?(:address)
-    user_info.phone_number = nil unless access_token.accessible?(Scope::PHONE)   || access_token.accessible?(:phone)
-    user_info.subject = if access_token.client.ppid?
+    userinfo.email        = nil unless access_token.accessible?(Scope::EMAIL)   || access_token.accessible?(:email)
+    userinfo.address      = nil unless access_token.accessible?(Scope::ADDRESS) || access_token.accessible?(:address)
+    userinfo.phone_number = nil unless access_token.accessible?(Scope::PHONE)   || access_token.accessible?(:phone)
+    userinfo.subject = if access_token.client.ppid?
       PairwisePseudonymousIdentifier.find_or_create_by_sector_identifier(access_token.client.sector_identifier).identifier
     else
       identifier
     end
-    user_info
+    userinfo
   end
 
   private

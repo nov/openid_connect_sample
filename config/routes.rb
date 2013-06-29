@@ -16,7 +16,7 @@ ConnectOp::Application.routes.draw do
   root to: 'top#index'
 
   match '.well-known/:id', to: 'discovery#show'
-  match 'user_info',       to: 'user_info#show', :via => [:get, :post]
+  match 'user_info',        to: 'user_info#show', :via => [:get, :post]
 
   post 'access_tokens', to: proc { |env| TokenEndpoint.new.call(env) }
   get  'jwks.json',     to: proc { |env| [200, {'Content-Type' => 'application/json'}, [IdToken.config[:jwk_set].to_json]] }

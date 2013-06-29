@@ -10,29 +10,20 @@ class Connect::ClientsController < ApplicationController
   rescue_from OpenIDConnect::ValidationFailed do |e|
     logger.info e.object
     error = case
-    when e.object.invalid?(:operation)
-      :invalid_operation
-    when e.object.invalid?(:client_id)
-      :invalid_client_id
-    when e.object.invalid?(:client_secret)
-      :invalid_client_secret
+    when e.object.invalid?(:redirect_uris)
+      :redirect_uris
     else
       :invalid_configuration_parameter
     end
     render json: {
-      error: error,
+      error: :invalid_client_metadata,
       error_description: e.message
     }, status: 400
   end
 
   def create
     registrar = OpenIDConnect::Client::Registrar.new(request.url, params)
-    @client = Client.from_registrar registrar
-    if @client.save
-      render json: @client
-    else
-      # should be only when redirect_uri is blank
-      raise HttpError::BadRequest.new(@client.errors.full_messages.to_sentence)
-    end
+    client = Client.register! registrar
+    render json: client
   end
 end

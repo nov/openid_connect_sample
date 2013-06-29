@@ -1,7 +1,4 @@
 class DiscoveryController < ApplicationController
-  # TODO: Move me to gem
-  ISSUER_NAMESPACE = 'http://openid.net/specs/connect/1.0/issuer'
-
   def show
     case params[:id]
     when 'webfinger'
@@ -18,7 +15,7 @@ class DiscoveryController < ApplicationController
   def webfinger_discovery
     jrd = {
       links: [{
-        rel: ISSUER_NAMESPACE,
+        rel: OpenIDConnect::Discovery::Provider::Issuer::REL_VALUE,
         href: IdToken.config[:issuer]
       }]
     }
@@ -27,7 +24,7 @@ class DiscoveryController < ApplicationController
   end
 
   def openid_configuration
-    render json: {
+    config = OpenIDConnect::Discovery::Provider::Config::Response.new(
       issuer: IdToken.config[:issuer],
       authorization_endpoint: new_authorization_url,
       token_endpoint: access_tokens_url,
@@ -42,6 +39,7 @@ class DiscoveryController < ApplicationController
       id_token_signing_alg_values_supported: [:RS256],
       token_endpoint_auth_methods_supported: ['client_secret_basic', 'client_secret_post'],
       claims_supported: ['sub', 'iss', 'name', 'email', 'address', 'phone_number']
-    }
+    )
+    render json: config
   end
 end

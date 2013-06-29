@@ -6,7 +6,7 @@ development: &defaults
   authorization_endpoint: https://accounts.google.com/o/oauth2/auth
   token_endpoint: https://accounts.google.com/o/oauth2/token
   check_session_endpoint: https://accounts.google.com/o/oauth2/tokeninfo
-  user_info_endpoint: https://www.googleapis.com/oauth2/v1/userinfo
+  userinfo_endpoint: https://www.googleapis.com/oauth2/v1/userinfo
 
 test:
   <<: *defaults

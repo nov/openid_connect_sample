@@ -6,5 +6,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   # inflect.plural /^(ox)$/i, '\1en'
   # inflect.singular /^(ox)en/i, '\1'
   # inflect.irregular 'person', 'people'
-  inflect.uncountable %w( facebook connect/facebook google connect/google dashboard user_info discovery )
+  inflect.uncountable %w( facebook connect/facebook google connect/google dashboard userinfo discovery )
 end
