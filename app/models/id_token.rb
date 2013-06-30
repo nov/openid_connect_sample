@@ -13,7 +13,7 @@ class IdToken < ActiveRecord::Base
     where { expires_at >= Time.now.utc }
   }
 
-  def to_response_object
+  def to_response_object(with = {})
     subject = if client.ppid?
       account.pairwise_pseudonymous_identifiers.find_or_create_by_sector_identifier(client.sector_identifier).identifier
     else
@@ -37,7 +37,14 @@ class IdToken < ActiveRecord::Base
       end
       claims[:acr] = '0'
     end
-    OpenIDConnect::ResponseObject::IdToken.new(claims)
+    id_token = OpenIDConnect::ResponseObject::IdToken.new(claims)
+    id_token.code = with[:code] if with[:code]
+    id_token.access_token = with[:access_token] if with[:access_token]
+    id_token
+  end
+
+  def to_jwt(with = {})
+    to_response_object(with).to_jwt self.class.config[:private_key]
   end
 
   private

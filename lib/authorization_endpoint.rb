@@ -72,9 +72,10 @@ class AuthorizationEndpoint
           )
         )
       end
-      id_token = _id_token_.to_response_object
-      id_token.code = res.code if res.respond_to?(:code)
-      id_token.access_token = res.access_token if res.respond_to?(:access_token)
+      res.id_token = _id_token_.to_jwt(
+        code: (res.respond_to?(:code) ? res.code : nil),
+        access_token: (res.respond_to?(:access_token) ? res.access_token : nil)
+      )
     end
     res.approve!
   end
