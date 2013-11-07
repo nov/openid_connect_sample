@@ -86,8 +86,9 @@ class Connect::Google < ActiveRecord::Base
     def authenticate(code)
       client.authorization_code = code
       token = client.access_token! :secret_in_body
+      kid = JSON::JWT.decode(token.id_token, :skip_verificationpublic_keys).header[:kid]
       id_token = OpenIDConnect::ResponseObject::IdToken.decode(
-        token.id_token, public_keys.first
+        token.id_token, public_keys[kid]
       )
       connect = find_or_initialize_by_identifier id_token.subject
       connect.access_token = token.access_token
