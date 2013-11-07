@@ -80,7 +80,9 @@ class Connect::Google < ActiveRecord::Base
     end
 
     def public_keys
-      certs.values.collect(&:public_key)
+      certs.inject({}) do |keys, (kid, cert)|
+        keys.merge! kid => cert.public_key
+      end
     end
 
     def authenticate(code)
