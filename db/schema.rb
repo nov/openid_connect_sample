@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(:version => 20120229153919) do
     t.integer  "account_id"
     t.string   "identifier"
     t.string   "access_token"
-    t.string   "id_token"
+    t.text     "id_token"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end

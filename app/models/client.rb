@@ -9,10 +9,10 @@ class Client < ActiveRecord::Base
 
   before_validation :setup, on: :create
 
-  validates :account,      presence: {unless: :dynamic?}
-  validates :identifier,   presence: true, uniqueness: true
-  validates :secret,       presence: true
-  validates :name,         presence: true
+  validates :account,    presence: {unless: :dynamic?}
+  validates :identifier, presence: true, uniqueness: true
+  validates :secret,     presence: true
+  validates :name,       presence: true
 
   scope :dynamic, where(dynamic: true)
   scope :valid, lambda {
