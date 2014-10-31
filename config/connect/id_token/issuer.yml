@@ -6,4 +6,4 @@ test:
 
 production:
   <<: *defaults
-  issuer: https://connect-op.heroku.com
+  issuer: https://connect-op.herokuapp.com
