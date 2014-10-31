@@ -20,7 +20,7 @@ class Connect::Facebook < ActiveRecord::Base
       verified: me.verified
     }
     attributes[:gender] = me.gender if ['male', 'female'].include?(me.gender)
-    OpenIDConnect::ResponseObject::UserInfo::OpenID.new attributes
+    OpenIDConnect::ResponseObject::UserInfo.new attributes
   end
 
   class << self

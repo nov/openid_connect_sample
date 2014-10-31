@@ -9,7 +9,7 @@ class Connect::Google < ActiveRecord::Base
   def userinfo
     unless @userinfo
       hash = call_api self.class.config[:userinfo_endpoint]
-      @userinfo = OpenIDConnect::ResponseObject::UserInfo::OpenID.new hash
+      @userinfo = OpenIDConnect::ResponseObject::UserInfo.new hash
     end
     @userinfo
   end
