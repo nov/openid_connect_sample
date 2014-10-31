@@ -1,4 +1,4 @@
-HOST: https://connect-op.heroku.com/
+HOST: https://connect-op.herokuapp.com/
 
 --- OpenID Connect Provider API ---
 ---
@@ -13,7 +13,7 @@ NOTE: This step can be skipped once the response cached.
 GET /.well-known/simple-web-discovery?service=http://openid.net/specs/connect/1.0/issuer&principal=<url-or-email>
 < 200
 < Content-Type: application/json
-{"locations": ["https://connect-op.heroku.com"]}
+{"locations": ["https://connect-op.herokuapp.com"]}
 
 [Step 2] If it's OpenID Connect IdP, get OpenID Connect Provider configuration.
 NOTE: This step can be skipped once the response cached.
@@ -22,17 +22,17 @@ GET /.well-known/openid-configuration
 < Content-Type: application/json
 {
   "version": "3.0",
-  "issuer": "https://connect-op.heroku.com",
-  "authorization_endpoint": "https://connect-op.heroku.com/authorizations/new",
-  "token_endpoint": "https://connect-op.heroku.com/access_tokens",
-  "userinfo_endpoint": "https://connect-op.heroku.com/user_info",
-  "registration_endpoint": "https://connect-op.heroku.com/connect/client",
+  "issuer": "https://connect-op.herokuapp.com",
+  "authorization_endpoint": "https://connect-op.herokuapp.com/authorizations/new",
+  "token_endpoint": "https://connect-op.herokuapp.com/access_tokens",
+  "userinfo_endpoint": "https://connect-op.herokuapp.com/user_info",
+  "registration_endpoint": "https://connect-op.herokuapp.com/connect/client",
   "scopes_supported": ["openid", "profile", "email", "address", "phone"],
   "response_types_supported": ["code", "token", "id_token", "code token", "code id_token", "id_token token", "code id_token token"],
   "user_id_types_supported": ["public", "pairwise"],
   "id_token_algs_supported": ["RS256"],
-  "x509_url": "https://connect-op.heroku.com/cert.pem",
-  "jwk_url": "https://connect-op.heroku.com/jwk.json"
+  "x509_url": "https://connect-op.herokuapp.com/cert.pem",
+  "jwk_url": "https://connect-op.herokuapp.com/jwk.json"
 }
 
 
@@ -44,7 +44,7 @@ NOTE: This step can be skipped if your RP alreasy has client credentials.
 POST /connect/client
 type=client_associate&
 application_type=web&name=Nov%20RP&
-redirect_uris=https%3A%2F%2Fconnect-rp.heroku.com%2Fprovider%2F1
+redirect_uris=https%3A%2F%2Fconnect-rp.herokuapp.com%2Fprovider%2F1
 < 200
 < Content-Type: application/json
 {
@@ -58,7 +58,7 @@ redirect_uris=https%3A%2F%2Fconnect-rp.heroku.com%2Fprovider%2F1
 Obtain End-User Authorization
 --
 [Step 4] Let the user-agent send a GET request to the authorization endpoint found in Step 2 (usually via redirect response from RP).
-GET /authorizations/new?response_type=code&client_id=cf85868cd0f8393ad809c3e4d00cd7fa&scope=openid%20profile%20email&redirect_uri=https%3A%2F%2Fconnect-rp.heroku.com%2Fprovider%2F1&state=b98e92c29b23b4ef
+GET /authorizations/new?response_type=code&client_id=cf85868cd0f8393ad809c3e4d00cd7fa&scope=openid%20profile%20email&redirect_uri=https%3A%2F%2Fconnect-rp.herokuapp.com%2Fprovider%2F1&state=b98e92c29b23b4ef
 < 200
 < Content-Type: text/html
 <html>
@@ -73,7 +73,7 @@ GET /authorizations/new?response_type=code&client_id=cf85868cd0f8393ad809c3e4d00
 POST /authorizations
 appoved=true
 < 302
-< Location: https://connect-rp.heroku.com/providers/1?code=17cf335105e58fa29895f435117829b05d2147941409133fdf7d38ff2e74a5d0&state=b98e92c29b23b4ef
+< Location: https://connect-rp.herokuapp.com/providers/1?code=17cf335105e58fa29895f435117829b05d2147941409133fdf7d38ff2e74a5d0&state=b98e92c29b23b4ef
 
 
 --
