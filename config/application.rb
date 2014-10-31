@@ -39,6 +39,9 @@ module ConnectOp
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
+    # ref) http://simonecarletti.com/blog/2012/02/heroku-and-rails-3-2-assetprecompile-error/
+    config.assets.initialize_on_precompile = false
+
     config.middleware.use Rack::OAuth2::Server::Resource::Bearer, 'OpenID Connect' do |req|
       AccessToken.valid.find_by_token(req.access_token) ||
       req.invalid_token!
@@ -48,7 +51,7 @@ module ConnectOp
     #   def initialize(app)
     #     @app = app
     #   end
-    # 
+    #
     #   def call(env)
     #     Rails.logger.info "Cookies In Request: #{env['rack.request.cookie_string']}"
     #     status, headers, body = @app.call(env)
