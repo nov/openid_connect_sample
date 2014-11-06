@@ -5,7 +5,8 @@ class AuthorizationEndpoint
   def initialize(current_account, allow_approval = false, approved = false)
     @account = current_account
     @app = Rack::OAuth2::Server::Authorize.new do |req, res|
-      @client = Client.find_by_identifier(req.client_id) || req.bad_request!
+      @client = Client.find_by_identifier(req.client_id)
+      req.bad_request! unless @client
       res.redirect_uri = @redirect_uri = req.verify_redirect_uri!(@client.redirect_uris)
       if res.protocol_params_location == :fragment && req.nonce.blank?
         req.invalid_request! 'nonce required'
