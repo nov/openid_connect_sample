@@ -44,7 +44,9 @@ class IdToken < ActiveRecord::Base
   end
 
   def to_jwt(with = {})
-    to_response_object(with).to_jwt self.class.config[:private_key]
+    to_response_object(with).to_jwt(self.class.config[:private_key]) do |jwt|
+      jwt.kid = self.class.config[:kid]
+    end
   end
 
   private
@@ -81,10 +83,11 @@ class IdToken < ActiveRecord::Base
         cert = OpenSSL::X509::Certificate.new(
           File.read(File.join(config_path, 'cert.pem'))
         )
+        @config[:kid] = :default
         @config[:public_key]  = cert.public_key
         @config[:private_key] = private_key
         @config[:jwk_set] = JSON::JWK::Set.new(
-          JSON::JWK.new(cert.public_key, use: :sig)
+          JSON::JWK.new(cert.public_key, use: :sig, kid: @config[:kid])
         )
       end
       @config
