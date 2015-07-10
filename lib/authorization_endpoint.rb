@@ -11,7 +11,7 @@ class AuthorizationEndpoint
         req.invalid_request! 'nonce required'
       end
       @scopes = req.scope.inject([]) do |_scopes_, scope|
-        _scopes_ << Scope.find_by_name(scope) or req.invalid_scope! "Unknown scope: #{scope}"
+        _scopes_ << (Scope.find_by_name(scope) or req.invalid_scope! "Unknown scope: #{scope}")
       end
       @request_object = if (@_request_ = req.request).present?
         OpenIDConnect::RequestObject.decode req.request, nil # @client.secret
