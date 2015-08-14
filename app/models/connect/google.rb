@@ -68,29 +68,17 @@ class Connect::Google < ActiveRecord::Base
       )
     end
 
-    def certs
-      unless @certs
-        response = OpenIDConnect.http_client.get 'https://www.googleapis.com/oauth2/v1/certs'
-        pems = JSON.parse response.body
-        @certs = pems.inject({}) do |certs, (key, pem)|
-          certs.merge key => OpenSSL::X509::Certificate.new(pem)
-        end
-      end
-      @certs
-    end
-
-    def public_keys
-      certs.inject({}) do |keys, (kid, cert)|
-        keys.merge! kid => cert.public_key
-      end
+    def jwks
+      @jwks ||= JSON::JWK::Set.new(JSON.parse(
+        OpenIDConnect.http_client.get('https://www.googleapis.com/oauth2/v2/certs').body
+      ))
     end
 
     def authenticate(code)
       client.authorization_code = code
       token = client.access_token! :secret_in_body
-      kid = JSON::JWT.decode(token.id_token, :skip_verification).header[:kid]
       id_token = OpenIDConnect::ResponseObject::IdToken.decode(
-        token.id_token, public_keys[kid]
+        token.id_token, jwks
       )
       connect = find_or_initialize_by_identifier id_token.subject
       connect.access_token = token.access_token
