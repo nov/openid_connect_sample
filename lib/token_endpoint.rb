@@ -19,7 +19,7 @@ class TokenEndpoint
             client: access_token.client,
             nonce: authorization.nonce,
             request_object: authorization.request_object
-          ).to_response_object.to_jwt IdToken.config[:private_key]
+          ).to_jwt
         end
       else
         req.unsupported_grant_type!
