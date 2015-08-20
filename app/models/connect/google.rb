@@ -42,6 +42,9 @@ class Connect::Google < ActiveRecord::Base
     def config
       unless @config
         @config = YAML.load_file("#{Rails.root}/config/connect/google.yml")[Rails.env].symbolize_keys
+        @config.merge! OpenIDConnect::Discovery::Provider::Config.discover!(
+          @config[:issuer]
+        ).as_json
         if Rails.env.production?
           @config.merge!(
             client_id:     ENV['g_client_id'],
@@ -64,13 +67,13 @@ class Connect::Google < ActiveRecord::Base
 
     def authorization_uri
       client.authorization_uri(
-        scope: config[:scope]
+        scope: config[:scopes_supported]
       )
     end
 
     def jwks
       @jwks ||= JSON::JWK::Set.new(JSON.parse(
-        OpenIDConnect.http_client.get('https://www.googleapis.com/oauth2/v2/certs').body
+        OpenIDConnect.http_client.get(config[:jwks_uri]).body
       ))
     end
 
