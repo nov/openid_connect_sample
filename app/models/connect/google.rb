@@ -65,8 +65,8 @@ class Connect::Google < ActiveRecord::Base
       )
     end
 
-    def authorization_uri
-      client.authorization_uri(
+    def authorization_uri(options = {})
+      client.authorization_uri options.merge(
         scope: config[:scopes_supported]
       )
     end

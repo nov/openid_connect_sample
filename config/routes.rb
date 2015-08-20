@@ -8,7 +8,7 @@ ConnectOp::Application.routes.draw do
   namespace :connect do
     resource :fake,     only: :create
     resource :facebook, only: :show
-    resource :google,   only: :show
+    resource :google,   only: [:show, :new]
     resource :client,   only: :create
   end
 
