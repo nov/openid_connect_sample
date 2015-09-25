@@ -5,7 +5,7 @@ A sample OpenID Connect Provider ("OP") using the `openid_connect` gem.
 
 ## Resources
 
-For this sample app:
+For this sample:
 
 * View source on GitHub: https://github.com/nov/openid_connect_sample
 * Report Issues on GitHub: https://github.com/nov/openid_connect_sample/issues
@@ -30,6 +30,7 @@ To see it in action right now:
 * visit [Nov's Sample RP on Heroku](https://connect-rp.herokuapp.com)
 * enter `connect-op.herokuapp.com` in the form
 * press "Discover"
+* the RP will use the OP to authenticate
 
 
 ## How to Run This Example on Your Machine
