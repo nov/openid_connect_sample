@@ -41,9 +41,9 @@ To run this in development mode on your local machine:
 
 * Download (or fork or clone) this repo
 * `bundle install` (see "Note" section below if you get "pg"-gem-related problems)
-* `rake db:create db:migrate db:seed` (you have SQLite installed, right?)
+* `bundle exec rake db:create db:migrate db:seed` (you have SQLite installed, right?)
 * modify `config/connect/id_token/issuer.yml` -- change `issuer` to http://localhost:3000
-* `rails server -p 3000`
+* `bundle exec rails server -p 3000`
 
 Point your browser at http://localhost:3000
 
