@@ -49,7 +49,7 @@ Point your browser at http://localhost:3000
 
 If you download and run [the sample RP server](https://connect-rp.herokuapp.com),
 you can have it use this OP (use `localhost:3000` in the "Discover" field).
-Both servers need be running on different ports.
+The two servers on localhost must run on different ports.
 
 Obviously, external servers will not be able to connect to an OP that is running on localhost.
 
