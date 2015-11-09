@@ -60,7 +60,7 @@ class IdToken < ActiveRecord::Base
   end
 
   def setup
-    self.expires_at = 6.hours.from_now
+    self.expires_at = 5.minutes.from_now
   end
 
   class << self
