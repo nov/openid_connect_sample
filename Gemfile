@@ -13,6 +13,7 @@ gem 'openid_connect'
 
 group :development, :test do
   gem 'sqlite3'
+  gem 'test-unit', '~> 3.0'
 end
 
 group :test do
