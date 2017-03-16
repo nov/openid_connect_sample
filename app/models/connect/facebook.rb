@@ -12,7 +12,6 @@ class Connect::Facebook < ActiveRecord::Base
     attributes = {
       id:       identifier,
       name:     me.name,
-      family_name: me.name,
       email:    me.email,
       address:  me.location.try(:name),
       profile:  me.link,
