@@ -20,6 +20,7 @@ class TokenEndpoint
             nonce: authorization.nonce,
             request_object: authorization.request_object
           ).to_jwt
+          Rails.logger.info "ID Token: #{res.id_token}"
         end
       else
         req.unsupported_grant_type!
