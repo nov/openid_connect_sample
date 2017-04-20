@@ -82,6 +82,7 @@ GEM
     polyglot (0.3.5)
     power_assert (1.0.1)
     public_suffix (2.0.5)
+    puma (3.8.2)
     rack (1.4.7)
     rack-cache (1.7.0)
       rack (>= 0.4)
@@ -163,6 +164,7 @@ DEPENDENCIES
   jquery-rails
   openid_connect
   pg
+  puma
   rack-oauth2
   rack-ssl
   rails (~> 3.2)
