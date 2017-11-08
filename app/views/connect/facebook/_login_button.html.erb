@@ -1,4 +1,10 @@
-<fb:login-button length="long" onlogin="location.href = '<%= connect_facebook_path %>'" scope="<%= Connect::Facebook.config[:scope] %>"></fb:login-button>
+<fb:login-button
+  size="large"
+  onlogin="location.href = '<%= connect_facebook_path %>'"
+  scope="<%= Connect::Facebook.config[:scope]%>"
+  button_type="continue_with"
+  use_continue_as="true"
+></fb:login-button>
 
 <% content_for :top do %>
   <div id="fb-root"></div>
@@ -11,7 +17,8 @@
       appId: "<%= Connect::Facebook.config[:client_id] %>",
       cookie: true,
       xfbml: true,
-      oauth: true
+      oauth: true,
+      version: 'v2.9'
     });
   </script>
 <% end %>
