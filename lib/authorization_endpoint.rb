@@ -18,6 +18,7 @@ class AuthorizationEndpoint
           # ignore
           # req.invalid_scope! "Unknown scope: #{scope}")
         end
+        _scopes_
       end
       @request_object = if (@_request_ = req.request).present?
         OpenIDConnect::RequestObject.decode req.request, nil # @client.secret
