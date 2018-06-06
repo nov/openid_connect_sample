@@ -34,7 +34,7 @@ module Rack
       class Bearer < AccessToken
         def token_response(options = {})
           response = super
-          response[:token_type] = 'Bearer'
+          response[:token_type] = 'Bearer' # NOTE: ALB OIDC gateway currently cannot accept "bearer".
           Rails.logger.info(response)
           response
         end
