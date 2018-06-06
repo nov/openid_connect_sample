@@ -23,6 +23,6 @@ group :test do
 end
 
 group :production do
-  gem 'pg'
+  gem 'pg', '1.0.0'
   gem 'rack-ssl', :require => 'rack/ssl'
 end

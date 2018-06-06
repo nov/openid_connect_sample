@@ -158,7 +158,7 @@ DEPENDENCIES
   html5_validators
   jquery-rails
   openid_connect
-  pg
+  pg (= 1.0.0)
   public_suffix (< 3.0)
   puma
   rack-oauth2
