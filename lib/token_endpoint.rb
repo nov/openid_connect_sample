@@ -27,3 +27,18 @@ class TokenEndpoint
     end
   end
 end
+
+module Rack
+  module OAuth2
+    class AccessToken
+      class Bearer < AccessToken
+        def token_response(options = {})
+          response = super
+          response[:token_type] = 'Bearer'
+          Rails.logger.info(response)
+          response
+        end
+      end
+    end
+  end
+end
