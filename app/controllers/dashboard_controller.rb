@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
-  before_filter :require_authentication
+  before_action :require_authentication
 
   def show
     @clients = current_account.clients

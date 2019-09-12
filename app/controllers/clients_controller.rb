@@ -1,5 +1,5 @@
 class ClientsController < ApplicationController
-  before_filter :require_authentication
+  before_action :require_authentication
 
   def new
     @client = current_account.clients.new

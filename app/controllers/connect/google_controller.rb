@@ -1,5 +1,5 @@
 class Connect::GoogleController < ApplicationController
-  before_filter :require_anonymous_access
+  before_action :require_anonymous_access
 
   def show
     if params[:code].blank? || session[:state] != params[:state]

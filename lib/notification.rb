@@ -1,6 +1,6 @@
 module Notification
   def self.included(klass)
-    klass.send :after_filter, :flash_to_cookie
+    klass.send :after_action, :flash_to_cookie
   end
 
   def flash_to_cookie

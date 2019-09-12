@@ -1,5 +1,5 @@
 development: &defaults
-  issuer: http://op.dev
+  issuer: http://localhost:3010
 
 test:
   <<: *defaults

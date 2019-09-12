@@ -14,7 +14,7 @@ ConnectOp::Application.routes.draw do
 
   root to: 'top#index'
 
-  match '.well-known/:id', to: 'discovery#show'
+  match '.well-known/:id', to: 'discovery#show', :via => [:get]
   match 'user_info',        to: 'user_info#show', :via => [:get, :post]
 
   post 'access_tokens', to: proc { |env| TokenEndpoint.new.call(env) }

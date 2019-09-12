@@ -5,7 +5,11 @@ class Connect::Facebook < ActiveRecord::Base
   validates :access_token, presence: true, uniqueness: true
 
   def me
-    @me ||= FbGraph::User.me(self.access_token).fetch
+    @me ||= FacebookOAuth::Client.new(
+      :application_id => config[:client_id],
+      :application_secret => config[:client_secret],
+      :token => access_token
+    ).info
   end
 
   def userinfo
@@ -38,7 +42,11 @@ class Connect::Facebook < ActiveRecord::Base
     end
 
     def auth
-      FbGraph::Auth.new config[:client_id], config[:client_secret]
+      FacebookOAuth::Client.new(
+        :application_id => config[:client_id],
+        :application_secret => config[:client_secret],
+        :callback => config[:callback]
+      )
     end
 
     def authenticate(cookies)

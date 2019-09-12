@@ -5,7 +5,7 @@ module Authentication
 
   def self.included(klass)
     klass.send :include, Authentication::Helper
-    klass.send :before_filter, :optional_authentication
+    klass.send :before_action, :optional_authentication
     klass.send :rescue_from, AuthenticationRequired,  with: :authentication_required!
     klass.send :rescue_from, AnonymousAccessRequired, with: :anonymous_access_required!
   end
