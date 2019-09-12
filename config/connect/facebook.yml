@@ -1,6 +1,6 @@
 development: &defaults
-  client_id: 131909826902957
-  client_secret: 101c7ebebb894c551bbe9f461bfe9e8f
+  client_id: UPDATE
+  client_secret: UPDATE
   callback: 'http://localhost:3010/connect/facebook'
   scope: user_birthday, user_location, user_website, email
 

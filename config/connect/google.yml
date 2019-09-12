@@ -1,6 +1,6 @@
 development: &defaults
-  client_id: 44054827399-fgalrsf4iuooofvtqairifbkp862s9ug.apps.googleusercontent.com
-  client_secret: q00q8Z0H2_wfSjmt2-CkRmQW
+  client_id: UPDATE.apps.googleusercontent.com
+  client_secret: UPDATE
   issuer: https://accounts.google.com
   redirect_uri: http://localhost:3010/connect/google
 
