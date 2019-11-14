@@ -11,7 +11,7 @@ gem 'fb_graph'
 gem 'rack-oauth2'
 gem 'openid_connect'
 gem 'public_suffix', '< 3.0'
-gem 'json-jwt', '<= 1.9.2'
+gem 'json-jwt', '<= 1.9.5'
 
 group :development, :test do
   gem 'sqlite3'
