@@ -34,7 +34,7 @@ GEM
     ansi (1.5.0)
     arel (3.0.3)
     attr_required (1.0.1)
-    bindata (2.4.3)
+    bindata (2.4.10)
     builder (3.0.4)
     concurrent-ruby (1.0.5)
     constant_cache (0.0.2)
