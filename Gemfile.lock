@@ -68,6 +68,7 @@ GEM
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.13.1)
+    nio4r (2.5.8)
     openid_connect (1.1.6)
       activemodel
       attr_required (>= 1.0.0)
@@ -84,7 +85,8 @@ GEM
     polyglot (0.3.5)
     power_assert (1.1.1)
     public_suffix (2.0.5)
-    puma (3.11.4)
+    puma (4.3.9)
+      nio4r (~> 2.0)
     rack (1.4.7)
     rack-cache (1.7.2)
       rack (>= 0.4)
