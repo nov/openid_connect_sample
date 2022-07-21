@@ -141,7 +141,7 @@ GEM
     turn (0.9.7)
       ansi
       minitest (~> 4)
-    tzinfo (0.3.54)
+    tzinfo (0.3.61)
     url_safe_base64 (0.2.2)
     validate_email (0.1.6)
       activemodel (>= 3.0)
